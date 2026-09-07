@@ -1,29 +1,30 @@
-// src/app/layout.tsx
-import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter, Playfair_Display } from 'next/font/google';
+import './globals.css';
+import Footer from '@/components/layout/Footer';
+import Navbar from '@/components/layout/Navbar';
 
-const headingFont = Cormorant_Garamond({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-inter',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
 });
 
-const bodyFont = Manrope({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  display: 'swap',
+  variable: '--font-playfair',
+  preload: true,
+  fallback: ['Georgia', 'serif'],
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | Mário Ferreira Advogados",
-    default: "Mário Ferreira Advogados",
-  },
-  description: "Escritório de advocacia multidisciplinar em Cascais, com mais de 46 anos de experiência.",
-   icons: {
-    icon: "/images/logo.png",
-  },
+  title: 'RiseON · Ligar o Talento, Impulsionar o Crescimento',
+  description: 'Consultora B2B vocacionada para o crescimento empresarial nas áreas de Recrutamento & Seleção, Gestão Digital e Performance Analytics.',
 };
 
 export default function RootLayout({
@@ -32,11 +33,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt">
-      <body
-        className={`${headingFont.variable} ${bodyFont.variable} antialiased`}
-      >
-        {children}
+    <html lang="pt" className={`${inter.variable} ${playfair.variable}`}>
+      <body className="min-h-screen flex flex-col antialiased bg-riseon-surface text-riseon-text">
+        <Navbar />
+        <main className="flex-1 pt-20">{children}</main>
+        <Footer />
       </body>
     </html>
   );

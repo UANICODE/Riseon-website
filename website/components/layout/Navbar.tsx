@@ -1,41 +1,23 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 
-interface NavbarProps {
-  locale: string;
-  dict: {
-    about: string;
-    practiceAreas: string;
-    team: string;
-    insights: string;
-    faq: string;
-    contact: string;
-    cta: string;
-  };
-}
-
-export function Navbar({ locale, dict }: NavbarProps) {
+export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const pathname = usePathname();
 
-  // Verificar se está na home page
-  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
-
+  // Navegação da RiseON
   const navigation = [
-    { label: dict.about, href: `/${locale}/about` },
-    { label: dict.practiceAreas, href: `/${locale}/practice-areas` },
-    { label: dict.team, href: `/${locale}/team` },
-    { label: dict.insights, href: `/${locale}/insights` },
-    { label: dict.faq, href: `/${locale}/faq` },
-    { label: dict.contact, href: `/${locale}/contact` },
+    { label: "Sobre", href: "/sobre" },
+    { label: "Serviços", href: "/servicos" },
+    { label: "Equipa", href: "/equipa" }, 
+    { label: "Contactos", href: "/contactos" },
   ];
 
   useEffect(() => {
@@ -52,34 +34,37 @@ export function Navbar({ locale, dict }: NavbarProps) {
   }, [pathname]);
 
   const isActive = (href: string) => {
-    if (href === `/${locale}`) return pathname === href;
+    if (href === "/") return pathname === href;
     return pathname.startsWith(href);
   };
 
+  // Verificar se está na home page
+  const isHomePage = pathname === "/";
+
   // Determinar o fundo do navbar
   const getNavbarBg = () => {
-    // Se estiver na home e não tiver scroll e menu fechado → transparente
+    // Se estiver na home e não tiver scroll e menu fechado → transparente com gradiente
     if (isHomePage && !scrolled && !open) {
-      return "bg-transparent";
+      return "bg-gradient-to-b from-riseon-navy/80 via-riseon-navy/40 to-transparent backdrop-blur-sm";
     }
-    // Em qualquer outro caso → fundo escuro
-    return "bg-brand/95 backdrop-blur-xl shadow-lg shadow-brand/20";
+    // Em qualquer outro caso → fundo escuro sólido
+    return "bg-riseon-navy/95 backdrop-blur-xl shadow-lg shadow-riseon-navy/20 border-b border-white/5";
   };
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${getNavbarBg()}`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-3 py-3 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8 lg:py-4 xl:px-10">
-        {/* Logo */}
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 md:py-4 lg:px-8">
+        {/* Logo - com imagem */}
         <Link
-          href={`/${locale}`}
+          href="/"
           className="group relative flex-shrink-0 transition-transform duration-300 hover:scale-105"
         >
-          <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 xl:h-[72px] xl:w-[72px]">
+          <div className="relative h-18 w-56 sm:h-12 sm:w-40 md:h-14 md:w-44">
             <Image
               src="/images/logo.png"
-              alt="Mário Ferreira Advogados"
+              alt="RiseON - Ligar o Talento, Impulsionar o Crescimento"
               fill
               className="object-contain"
               priority
@@ -98,12 +83,12 @@ export function Navbar({ locale, dict }: NavbarProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group relative px-2 py-2 xl:px-4"
+                className="group relative px-3 py-2 xl:px-4"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
                 <span
-                  className={`relative text-xs font-medium transition-all duration-300 md:text-sm ${
+                  className={`relative text-sm font-medium transition-all duration-300 ${
                     active
                       ? "text-gold"
                       : isHovered
@@ -114,18 +99,21 @@ export function Navbar({ locale, dict }: NavbarProps) {
                   {item.label}
                 </span>
 
+                {/* Linha de baixo */}
                 <span
                   className={`absolute bottom-0 left-0 h-0.5 bg-gold transition-all duration-500 ${
                     active || isHovered ? "w-full" : "w-0"
                   }`}
                 />
 
+                {/* Fundo hover */}
                 <span
                   className={`absolute inset-0 rounded-lg bg-gold/5 transition-opacity duration-300 ${
                     isHovered ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
+                {/* Indicador ativo */}
                 {active && (
                   <span className="absolute -top-1 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-gold shadow-lg shadow-gold/50" />
                 )}
@@ -133,21 +121,17 @@ export function Navbar({ locale, dict }: NavbarProps) {
             );
           })}
 
-          <div className="ml-2 border-l border-white/10 pl-3 xl:ml-4 xl:pl-4">
-            <LanguageSwitcher currentLocale={locale} />
-          </div>
-
+          {/* CTA Principal */}
           <Link
-            href={`/${locale}/contact`}
-            className="group relative ml-2 overflow-hidden rounded-full bg-gold px-3 py-1.5 text-xs font-bold text-brand transition-all hover:bg-gold-light hover:shadow-lg hover:shadow-gold/30 xl:ml-4 xl:px-6 xl:py-2.5 xl:text-sm"
+            href="/contactos"
+            className="group relative ml-2 overflow-hidden rounded-full bg-gold px-4 py-2 text-sm font-bold text-riseon-navy transition-all hover:bg-gold-light hover:shadow-lg hover:shadow-gold/30 xl:ml-4 xl:px-6 xl:py-2.5"
           >
             <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <span className="relative z-10 flex items-center gap-1 xl:gap-2">
-              <span className="hidden sm:inline">{dict.cta}</span>
-              <span className="sm:hidden">{dict.cta}</span>
+            <span className="relative z-10 flex items-center gap-2">
+              Falar com Especialista
               <ArrowUpRight
-                size={14}
-                className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 xl:size-[15px]"
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
               />
             </span>
             <span className="absolute inset-0 translate-y-full bg-gold-light transition-transform duration-500 group-hover:translate-y-0" />
@@ -156,10 +140,6 @@ export function Navbar({ locale, dict }: NavbarProps) {
 
         {/* Mobile Controls */}
         <div className="flex items-center gap-2 lg:hidden">
-          <div className="scale-90 sm:scale-100">
-            <LanguageSwitcher currentLocale={locale} />
-          </div>
-
           <button
             onClick={() => setOpen(!open)}
             className="relative z-20 p-1 text-white hover:text-gold transition-colors"
@@ -187,8 +167,20 @@ export function Navbar({ locale, dict }: NavbarProps) {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="fixed inset-x-0 top-[72px] z-40 h-[calc(100vh-72px)] overflow-y-auto bg-brand/98 backdrop-blur-xl lg:hidden">
+        <div className="fixed inset-x-0 top-[72px] z-40 h-[calc(100vh-72px)] overflow-y-auto bg-riseon-navy/98 backdrop-blur-xl lg:hidden">
           <div className="flex flex-col space-y-1 px-4 py-6 sm:px-6">
+            {/* Logo no menu mobile */}
+            <div className="mb-4 flex justify-center border-b border-white/10 pb-4">
+              <div className="relative h-10 w-32">
+                <Image
+                  src="/images/riseon-logo-white.png"
+                  alt="RiseON"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+
             {navigation.map((item) => {
               const active = isActive(item.href);
 
@@ -222,12 +214,12 @@ export function Navbar({ locale, dict }: NavbarProps) {
 
             <div className="mt-4 border-t border-white/10 pt-4">
               <Link
-                href={`/${locale}/contact`}
-                className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gold px-6 py-4 text-base font-bold text-brand transition-all hover:bg-gold-light"
+                href="/contactos"
+                className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gold px-6 py-4 text-base font-bold text-riseon-navy transition-all hover:bg-gold-light"
                 onClick={() => setOpen(false)}
               >
                 <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <span className="relative z-10">{dict.cta}</span>
+                <span className="relative z-10">Falar com Especialista</span>
                 <ArrowUpRight
                   size={18}
                   className="relative z-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -238,19 +230,19 @@ export function Navbar({ locale, dict }: NavbarProps) {
             <div className="mt-6 border-t border-white/10 pt-6">
               <div className="space-y-3 text-center text-sm text-white/40">
                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/20">
-                  {locale === "pt" ? "Contacto" : "Contact"}
+                  Contacto
                 </p>
                 <a
-                  href="tel:+351XXXYYYY"
+                  href="tel:+351923330190"
                   className="block text-white/60 transition-colors hover:text-gold"
                 >
-                  +351 XXX XXX XXX
+                  +351 923 330 190
                 </a>
                 <a
-                  href="mailto:geral@mariaferreira.pt"
+                  href="mailto:geral@riseon.pt"
                   className="block text-white/60 transition-colors hover:text-gold"
                 >
-                  geral@mariaferreira.pt
+                  geral@riseon.pt
                 </a>
                 <p className="text-xs text-white/30">
                   Rua José Florindo, 44C • 2750-400 Cascais
