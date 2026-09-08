@@ -6,7 +6,7 @@ export default function Servicos() {
     <div className="pt-24 pb-16 bg-riseon-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center fade-in-up">
-          <span className="text-riseon-blue font-heading text-sm font-semibold tracking-widest uppercase">Serviços</span>
+         
           <h1 className="font-heading text-4xl md:text-5xl font-bold text-riseon-navy mt-2">
             O que <span className="text-riseon-blueLight">oferecemos</span>
           </h1>

@@ -3,35 +3,31 @@
 import { MapPin, Phone, Mail, Clock, Navigation } from 'lucide-react';
 
 export default function Contactos() {
-  // Coordenadas da RiseON - Rua José Florindo, 44C, 2750-400 Cascais
   const latitude = 38.6979;
   const longitude = -9.4215;
   const mapsUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${latitude},${longitude}&zoom=15&maptype=roadmap`;
-
-  // Link para abrir no Google Maps
   const openMaps = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
 
   return (
-    <div className="pt-24 pb-16 bg-riseon-surface">
+    <div className="pt-24 pb-16 bg-[#EAF1F7]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center fade-in-up">
-          <span className="text-riseon-blue font-heading text-sm font-semibold tracking-widest uppercase">Contactos</span>
-          <h1 className="font-heading text-4xl md:text-5xl font-bold text-riseon-navy mt-2">
-            Fale <span className="text-riseon-blueLight">connosco</span>
+         
+          <h1 className="font-heading text-4xl md:text-5xl font-bold text-[#0A1628] mt-2">
+            Fale <span className="text-[#4FB0D9]">connosco</span>
           </h1>
-          <p className="mt-4 text-riseon-textSecondary max-w-2xl mx-auto">
+          <p className="mt-4 text-[#3A5368] max-w-2xl mx-auto">
             Estamos aqui para ajudar. Entre em contacto e descubra como a RiseON pode impulsionar o seu crescimento.
           </p>
         </div>
 
         <div className="mt-12 grid lg:grid-cols-2 gap-10">
-          {/* Informações */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-riseon-borderLight flex items-start gap-4 hover:shadow-md transition">
-              <MapPin className="text-riseon-navy flex-shrink-0 mt-1" size={24} />
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
+              <MapPin className="text-[#0A1628] flex-shrink-0 mt-1" size={24} />
               <div>
-                <h4 className="font-semibold text-riseon-navy">Sede</h4>
-                <p className="text-riseon-textSecondary text-sm">
+                <h4 className="font-semibold text-[#0A1628]">Sede</h4>
+                <p className="text-[#3A5368] text-sm">
                   Rua José Florindo, 44C<br />
                   2750-400 Cascais, Portugal
                 </p>
@@ -39,7 +35,7 @@ export default function Contactos() {
                   href={openMaps}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-riseon-blue text-sm font-medium mt-2 hover:text-riseon-navy transition"
+                  className="inline-flex items-center gap-1 text-[#4FB0D9] text-sm font-medium mt-2 hover:text-[#2A7FAA] transition"
                 >
                   <Navigation size={14} />
                   Como chegar
@@ -47,84 +43,83 @@ export default function Contactos() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-riseon-borderLight flex items-start gap-4 hover:shadow-md transition">
-              <Phone className="text-riseon-blue flex-shrink-0 mt-1" size={24} />
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
+              <Phone className="text-[#4FB0D9] flex-shrink-0 mt-1" size={24} />
               <div>
-                <h4 className="font-semibold text-riseon-navy">Telefone</h4>
-                <a href="tel:+351923330190" className="text-riseon-textSecondary text-sm hover:text-riseon-blue transition">
+                <h4 className="font-semibold text-[#0A1628]">Telefone</h4>
+                <a href="tel:+351923330190" className="text-[#3A5368] text-sm hover:text-[#4FB0D9] transition">
                   +351 923 330 190
                 </a>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-riseon-borderLight flex items-start gap-4 hover:shadow-md transition">
-              <Mail className="text-gold-dark flex-shrink-0 mt-1" size={24} />
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
+              <Mail className="text-[#2A7FAA] flex-shrink-0 mt-1" size={24} />
               <div>
-                <h4 className="font-semibold text-riseon-navy">Email</h4>
-                <a href="mailto:geral@riseon.pt" className="text-riseon-textSecondary text-sm hover:text-riseon-blue transition">
+                <h4 className="font-semibold text-[#0A1628]">Email</h4>
+                <a href="mailto:geral@riseon.pt" className="text-[#3A5368] text-sm hover:text-[#4FB0D9] transition">
                   geral@riseon.pt
                 </a>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-riseon-borderLight flex items-start gap-4 hover:shadow-md transition">
-              <Clock className="text-riseon-navy flex-shrink-0 mt-1" size={24} />
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
+              <Clock className="text-[#0A1628] flex-shrink-0 mt-1" size={24} />
               <div>
-                <h4 className="font-semibold text-riseon-navy">Horário</h4>
-                <p className="text-riseon-textSecondary text-sm">
-                  Segunda a Sexta: 09:00 – 18:00<br />
-                  Sábado e Domingo: Fechado
+                <h4 className="font-semibold text-[#0A1628]">Horário</h4>
+                <p className="text-[#3A5368] text-sm">
+                  Segunda a Sexta: 08:00 – 20:00<br />
+                  Sábado: 09:00 – 14:00
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Formulário */}
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-riseon-borderLight">
-            <h3 className="font-heading text-2xl font-bold text-riseon-navy">Envie uma mensagem</h3>
+          <div className="bg-white rounded-xl p-8 shadow-sm border border-[#D6E2EC]">
+            <h3 className="font-heading text-2xl font-bold text-[#0A1628]">Envie uma mensagem</h3>
             <form className="mt-6 space-y-4">
               <div>
-                <label htmlFor="nome" className="block text-sm font-medium text-riseon-textSecondary">Nome *</label>
+                <label htmlFor="nome" className="block text-sm font-medium text-[#3A5368]">Nome *</label>
                 <input
                   type="text"
                   id="nome"
                   required
-                  className="mt-1 w-full px-4 py-3 border border-riseon-borderLight rounded-md focus:outline-none focus:ring-2 focus:ring-riseon-blue focus:border-transparent transition"
+                  className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FB0D9] focus:border-transparent transition"
                   placeholder="O seu nome"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-riseon-textSecondary">Email *</label>
+                <label htmlFor="email" className="block text-sm font-medium text-[#3A5368]">Email *</label>
                 <input
                   type="email"
                   id="email"
                   required
-                  className="mt-1 w-full px-4 py-3 border border-riseon-borderLight rounded-md focus:outline-none focus:ring-2 focus:ring-riseon-blue focus:border-transparent transition"
+                  className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FB0D9] focus:border-transparent transition"
                   placeholder="email@exemplo.com"
                 />
               </div>
               <div>
-                <label htmlFor="telefone" className="block text-sm font-medium text-riseon-textSecondary">Telefone</label>
+                <label htmlFor="telefone" className="block text-sm font-medium text-[#3A5368]">Telefone</label>
                 <input
                   type="tel"
                   id="telefone"
-                  className="mt-1 w-full px-4 py-3 border border-riseon-borderLight rounded-md focus:outline-none focus:ring-2 focus:ring-riseon-blue focus:border-transparent transition"
+                  className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FB0D9] focus:border-transparent transition"
                   placeholder="+351 912 345 678"
                 />
               </div>
               <div>
-                <label htmlFor="mensagem" className="block text-sm font-medium text-riseon-textSecondary">Mensagem *</label>
+                <label htmlFor="mensagem" className="block text-sm font-medium text-[#3A5368]">Mensagem *</label>
                 <textarea
                   id="mensagem"
                   rows={4}
                   required
-                  className="mt-1 w-full px-4 py-3 border border-riseon-borderLight rounded-md focus:outline-none focus:ring-2 focus:ring-riseon-blue focus:border-transparent transition"
+                  className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FB0D9] focus:border-transparent transition"
                   placeholder="Como podemos ajudar?"
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full bg-riseon-navy text-white py-3.5 rounded-md font-medium hover:bg-riseon-navyDark transition shadow-sm hover:shadow-md"
+                className="w-full bg-[#4FB0D9] text-white py-3.5 rounded-md font-medium hover:bg-[#2A7FAA] transition shadow-sm hover:shadow-md"
               >
                 Enviar Mensagem
               </button>
@@ -132,8 +127,7 @@ export default function Contactos() {
           </div>
         </div>
 
-        {/* Google Maps - funcional */}
-        <div className="mt-12 bg-white rounded-xl overflow-hidden shadow-md border border-riseon-borderLight">
+        <div className="mt-12 bg-white rounded-xl overflow-hidden shadow-md border border-[#D6E2EC]">
           <div className="relative aspect-[16/7] min-h-[300px]">
             <iframe
               src={mapsUrl}
@@ -146,20 +140,18 @@ export default function Contactos() {
               title="Localização da RiseON - Cascais"
               className="absolute inset-0"
             />
-            {/* Overlay com informação */}
-            <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-riseon-borderLight">
+            <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-[#D6E2EC]">
               <div className="flex items-center gap-2">
-                <MapPin size={16} className="text-riseon-navy" />
-                <span className="text-sm font-medium text-riseon-navy">RiseON - Cascais</span>
+                <MapPin size={16} className="text-[#0A1628]" />
+                <span className="text-sm font-medium text-[#0A1628]">RiseON - Cascais</span>
               </div>
-              <p className="text-xs text-riseon-textMuted">Rua José Florindo, 44C</p>
+              <p className="text-xs text-[#6A859C]">Rua José Florindo, 44C</p>
             </div>
-            {/* Botão de abrir no mapa */}
             <a
               href={openMaps}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute bottom-4 right-4 bg-riseon-navy text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-riseon-navyDark transition shadow-lg hover:shadow-xl flex items-center gap-2"
+              className="absolute bottom-4 right-4 bg-[#4FB0D9] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#2A7FAA] transition shadow-lg hover:shadow-xl flex items-center gap-2"
             >
               <Navigation size={16} />
               Abrir no Google Maps
@@ -169,4 +161,4 @@ export default function Contactos() {
       </div>
     </div>
   );
-}
+} 

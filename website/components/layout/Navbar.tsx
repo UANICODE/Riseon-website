@@ -128,7 +128,7 @@ export default function Navbar() {
           >
             <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <span className="relative z-10 flex items-center gap-2">
-              Falar com Especialista
+          Agendar Reunião
               <ArrowUpRight
                 size={16}
                 className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
