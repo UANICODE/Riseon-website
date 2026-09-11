@@ -1,169 +1,470 @@
+'use client';
+
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import Link from 'next/link';
-import { Target, Award, Zap, Users, Eye, Shield } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Sobre() {
+  const [active, setActive] = useState('missao');
+
+  const sections = [
+    { id: 'missao', label: 'Missão' },
+    { id: 'valores', label: 'Valores' },
+    { id: 'pilares', label: 'Pilares Estratégicos' },
+    { id: 'equipa', label: 'Equipa' },
+  ];
+
+  const refs = {
+    missao: useRef<HTMLDivElement>(null),
+    valores: useRef<HTMLDivElement>(null),
+    pilares: useRef<HTMLDivElement>(null),
+    equipa: useRef<HTMLDivElement>(null),
+  };
+
+  // Detetar secção ativa ao scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY + 200;
+      for (const id of Object.keys(refs) as (keyof typeof refs)[]) {
+        const el = refs[id].current;
+        if (el) {
+          const top = el.offsetTop;
+          const bottom = top + el.offsetHeight;
+          if (scrollY >= top && scrollY < bottom) {
+            setActive(id);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollTo = (id: keyof typeof refs) => {
+    const el = refs[id].current;
+    if (el) {
+      window.scrollTo({
+        top: el.offsetTop - 100,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
-    <div className="pt-24 pb-16 bg-riseon-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header - com logo no canto */}
-        <div className="flex items-center justify-between border-b border-riseon-borderLight pb-4 mb-8">
-          <span className="font-heading text-2xl font-bold text-riseon-navy">
-            Rise<span className="text-gold">ON</span>
-          </span>
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#0a0e3f] via-[#0d1350] to-[#1a1a6e] pt-6 pb-20">
+
+      {/* ======================================================
+          ESTRELAS DE FUNDO
+      ====================================================== */}
+
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 70 }).map((_, i) => {
+          const size = (i % 3) + 0.7;
+          const top = (i * 47.3) % 100;
+          const left = (i * 83.7) % 100;
+          const opacity = 0.15 + ((i * 13) % 55) / 100;
+          const delay = ((i * 17) % 50) / 10;
+          const duration = 3 + ((i * 7) % 40) / 10;
+          return (
+            <span
+              key={i}
+              className="absolute rounded-full bg-white animate-star-twinkle"
+              style={{
+                width: `${size}px`,
+                height: `${size}px`,
+                top: `${top}%`,
+                left: `${left}%`,
+                opacity,
+                animationDelay: `${delay}s`,
+                animationDuration: `${duration}s`,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* ======================================================
+          GLOWS FLUTUANTES
+      ====================================================== */}
+
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#4FB0D9]/10 rounded-full blur-3xl pointer-events-none animate-hero-orb-1" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#2A7FAA]/10 rounded-full blur-3xl pointer-events-none animate-hero-orb-2" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#4FB0D9]/5 rounded-full blur-3xl pointer-events-none animate-hero-orb-3" />
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* ======================================================
+            HEADER — LOGO GRANDE + NAV BRANCO
+        ====================================================== */}
+
+        <div className="flex items-center justify-between border-b border-[#4FB0D9]/20 pb-6 mb-12 animate-fade-in-down">
+          <Link
+            href="/"
+            className="
+              relative
+              w-56 h-20
+              sm:w-64 sm:h-24
+              md:w-72 md:h-28
+              transition-transform duration-500
+              hover:scale-105
+            "
+          >
+            <Image
+              src="/images/logo.png"
+              alt="RiseON"
+              fill
+              className="object-contain object-left"
+              priority
+              sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, 288px"
+            />
+          </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link href="/" className="text-riseon-textMuted hover:text-riseon-navy">Início</Link>
-            <Link href="/servicos" className="text-riseon-textMuted hover:text-riseon-navy">Serviços</Link>
-            <Link href="/contactos" className="text-riseon-textMuted hover:text-riseon-navy">Contactos</Link>
+            <Link
+              href="/"
+              className="relative transition group"
+              style={{ color: '#ffffff' }}
+            >
+              Início
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#6EC8F0] group-hover:w-full transition-all duration-300" />
+            </Link>
+            <Link
+              href="/servicos"
+              className="relative transition group"
+              style={{ color: '#ffffff' }}
+            >
+              Serviços
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#6EC8F0] group-hover:w-full transition-all duration-300" />
+            </Link>
+            <Link
+              href="/contactos"
+              className="relative transition group"
+              style={{ color: '#ffffff' }}
+            >
+              Contactos
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#6EC8F0] group-hover:w-full transition-all duration-300" />
+            </Link>
           </nav>
         </div>
 
-        <div className="text-center fade-in-up">
-          <span className="text-riseon-blue font-heading text-sm font-semibold tracking-widest uppercase">Sobre Nós</span>
-          <h1 className="font-heading text-4xl md:text-5xl font-bold text-riseon-navy mt-2">
-            Quem somos <span className="text-riseon-blueLight">na RiseON</span>
+        {/* ======================================================
+            TÍTULO
+        ====================================================== */}
+
+        <div className="text-center animate-fade-in-up">
+          <h1 className="font-heading text-4xl md:text-5xl font-bold text-white">
+            Sobre
           </h1>
         </div>
 
-        {/* Introdução - CONTEÚDO EXATO DOS PLANOS */}
-        <div className="mt-12 max-w-3xl mx-auto text-center">
-          <p className="text-lg text-riseon-textSecondary leading-relaxed">
-            Fundada em <strong>janeiro de 2026</strong>, com sede em <strong>Cascais</strong>, a <strong className="text-riseon-navy">RiseON</strong> é uma consultora B2B vocacionada para o crescimento empresarial, com atuação nas áreas de <strong>Recrutamento &amp; Seleção</strong>, <strong>Gestão Digital</strong> e <strong>Performance Analytics</strong>.
+        {/* ======================================================
+            INTRODUÇÃO
+        ====================================================== */}
+
+        <div className="mt-8 max-w-3xl mx-auto text-center animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+          <p className="text-white/75 leading-relaxed text-base md:text-lg">
+            Fundada em <strong className="text-[#6EC8F0]">janeiro de 2026</strong>, com sede em{' '}
+            <strong className="text-[#6EC8F0]">Cascais</strong>, a{' '}
+            <strong className="text-[#6EC8F0]">RiseON</strong> é uma consultora B2B vocacionada para o
+            crescimento empresarial, com atuação nas áreas de{' '}
+            <strong className="text-white">Recrutamento &amp; Seleção</strong>,{' '}
+            <strong className="text-white">Gestão Digital</strong> e{' '}
+            <strong className="text-white">Performance Analytics</strong>.
           </p>
         </div>
 
-        {/* Missão - CONTEÚDO EXATO */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-riseon-borderLight text-center">
-            <div className="w-14 h-14 bg-riseon-navy/10 rounded-full flex items-center justify-center mx-auto text-riseon-navy">
-              <Target size={28} />
-            </div>
-            <h3 className="font-heading text-2xl font-bold text-riseon-navy mt-4">Missão</h3>
-            <p className="text-riseon-textSecondary text-sm mt-2">
-              <strong>“Ligar o Talento, Impulsionar o Crescimento”</strong>
-            </p>
-            <p className="text-riseon-textSecondary text-sm mt-2">
-              Temos como objetivo ser o parceiro estratégico de crescimento para startups e PMEs portuguesas, integrando Talento, Impacto Digital e Performance numa visão coerente, orientada para resultados reais e fundamentada em dados.
-            </p>
-          </div>
+        {/* ======================================================
+            NAVEGAÇÃO EM NUVENS
+        ====================================================== */}
 
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-riseon-borderLight text-center">
-            <div className="w-14 h-14 bg-gold/20 rounded-full flex items-center justify-center mx-auto text-gold-dark">
-              <Award size={28} />
-            </div>
-            <h3 className="font-heading text-2xl font-bold text-riseon-navy mt-4">Valores</h3>
-            <ul className="text-riseon-textSecondary text-sm space-y-3 mt-2 text-left">
-              <li className="flex items-start gap-2">
-                <span className="text-gold">◆</span>
-                <div>
-                  <strong>Transparência</strong>
-                  <p className="text-xs text-riseon-textMuted">Comunicação clara e ética em todos os processos de seleção e serviços digitais</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gold">◆</span>
-                <div>
-                  <strong>Compromisso</strong>
-                  <p className="text-xs text-riseon-textMuted">Acompanhamento próximo e personalizado, garantindo que cada integração seja bem-sucedida</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gold">◆</span>
-                <div>
-                  <strong>Agilidade e Simplicidade</strong>
-                  <p className="text-xs text-riseon-textMuted">Foco no que realmente cria valor para as Empresas e para os Candidatos</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gold">◆</span>
-                <div>
-                  <strong>Inovação e Crescimento</strong>
-                  <p className="text-xs text-riseon-textMuted">Movemo-nos pela vontade de fazer as Empresas crescerem, fornecendo as ferramentas necessárias para se destacarem num mercado competitivo</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-riseon-borderLight text-center">
-            <div className="w-14 h-14 bg-riseon-blue/10 rounded-full flex items-center justify-center mx-auto text-riseon-blue">
-              <Zap size={28} />
-            </div>
-            <h3 className="font-heading text-2xl font-bold text-riseon-navy mt-4">Pilares Estratégicos</h3>
-            <div className="mt-4 space-y-3">
-              <div className="bg-riseon-navy/5 rounded-lg p-3">
-                <span className="font-heading text-xl font-bold text-riseon-navy">Talent</span>
-                <p className="text-xs text-riseon-textMuted">Recrutamento &amp; Seleção</p>
-              </div>
-              <div className="bg-riseon-blue/5 rounded-lg p-3">
-                <span className="font-heading text-xl font-bold text-riseon-blue">Impact</span>
-                <p className="text-xs text-riseon-textMuted">Gestão Digital</p>
-              </div>
-              <div className="bg-gold/10 rounded-lg p-3">
-                <span className="font-heading text-xl font-bold text-gold-dark">Performance</span>
-                <p className="text-xs text-riseon-textMuted">Performance Analytics</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Equipa - CONTEÚDO EXATO */}
-        <div className="mt-20">
-          <h2 className="font-heading text-3xl font-bold text-riseon-navy text-center">
-            A nossa <span className="text-riseon-blueLight">Equipa</span>
-          </h2>
-          <div className="mt-8 grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <div className="team-card bg-white rounded-xl p-6 shadow-sm border border-riseon-borderLight flex items-center gap-6">
-              <div className="w-20 h-20 bg-riseon-navy/10 rounded-full flex items-center justify-center text-riseon-navy font-heading text-2xl font-bold">
-                BF
-              </div>
-              <div>
-                <h4 className="font-heading text-xl font-bold text-riseon-navy">Beatriz Ferreira</h4>
-                <p className="text-riseon-blue font-medium text-sm">Gerente</p>
-                <p className="text-riseon-textMuted text-sm">Recrutamento &amp; Gestão</p>
-              </div>
-            </div>
-            <div className="team-card bg-white rounded-xl p-6 shadow-sm border border-riseon-borderLight flex items-center gap-6">
-              <div className="w-20 h-20 bg-riseon-blue/10 rounded-full flex items-center justify-center text-riseon-blue font-heading text-2xl font-bold">
-                TF
-              </div>
-              <div>
-                <h4 className="font-heading text-xl font-bold text-riseon-navy">Tomás Ferreira</h4>
-                <p className="text-riseon-blue font-medium text-sm">Gerente</p>
-                <p className="text-riseon-textMuted text-sm">Estratégia &amp; Performance</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Prova Social - CONTEÚDO EXATO */}
-        <div className="mt-20">
-          <h2 className="font-heading text-3xl font-bold text-riseon-navy text-center">
-            Prova <span className="text-riseon-blueLight">Social</span>
-          </h2>
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { name: 'MyMoment', id: 'mymoment' },
-              { name: 'Coolivin', id: 'coolivin' },
-              { name: 'Centro Juvenil', id: 'centro-juvenil' },
-              { name: 'Dark Cloud', id: 'dark-cloud' },
-              { name: 'MadreMedia', id: 'madremedia' },
-              { name: 'CD Cova Piedade', id: 'cd-cova-piedade' },
-              { name: 'T.E.C. Physio', id: 'tec-physio' },
-              { name: 'Skillfull', id: 'skillfull' },
-            ].map((cliente) => (
-              <Link
-                key={cliente.id}
-                href={`/clientes/${cliente.id}`}
-                className="bg-white rounded-xl p-4 shadow-sm border border-riseon-borderLight hover:shadow-md hover:border-riseon-blue transition-all text-center flex items-center justify-center min-h-[70px]"
-              >
-                <span className="font-heading text-riseon-textSecondary font-semibold text-sm">{cliente.name}</span>
-              </Link>
+        <div className="mt-12 flex flex-col items-center gap-6">
+          <div className="flex flex-wrap justify-center gap-6 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+            {sections.slice(0, 2).map((s, i) => (
+              <CloudButton
+                key={s.id}
+                label={s.label}
+                active={active === s.id}
+                delay={i * 0.1}
+                onClick={() => {
+                  setActive(s.id);
+                  scrollTo(s.id as keyof typeof refs);
+                }}
+              />
             ))}
           </div>
-          <p className="text-center text-riseon-textMuted text-sm mt-4">
-            Clique num cliente para ver o nosso trabalho conjunto
-          </p>
+
+          <div className="flex flex-wrap justify-center gap-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            {sections.slice(2).map((s, i) => (
+              <CloudButton
+                key={s.id}
+                label={s.label}
+                active={active === s.id}
+                delay={i * 0.1}
+                onClick={() => {
+                  setActive(s.id);
+                  scrollTo(s.id as keyof typeof refs);
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* ======================================================
+            SECÇÕES SEQUENCIAIS
+        ====================================================== */}
+
+        <div className="mt-20 space-y-24">
+
+          {/* MISSÃO */}
+          <Section ref={refs.missao} id="missao" title="Missão" delay={0.1}>
+            <p className="text-lg text-white/85 leading-relaxed mb-4">
+              <strong className="text-[#6EC8F0]">
+                "Ligar o Talento, Impulsionar o Crescimento"
+              </strong>
+            </p>
+            <p className="text-white/70 leading-relaxed">
+              Temos como objetivo ser o parceiro estratégico de crescimento para startups e PMEs
+              portuguesas, integrando Talento, Impacto Digital e Performance numa visão coerente,
+              orientada para resultados reais e fundamentada em dados.
+            </p>
+          </Section>
+
+          {/* VALORES */}
+          <Section ref={refs.valores} id="valores" title="Valores" delay={0.1}>
+            <div className="grid sm:grid-cols-2 gap-6">
+              {[
+                { t: 'Transparência', d: 'Comunicação clara e ética em todos os processos de seleção e serviços digitais' },
+                { t: 'Compromisso', d: 'Acompanhamento próximo e personalizado, garantindo que cada integração seja bem-sucedida' },
+                { t: 'Agilidade e Simplicidade', d: 'Foco no que realmente cria valor para as Empresas e para os Candidatos' },
+                { t: 'Inovação e Crescimento', d: 'Movemo-nos pela vontade de fazer as Empresas crescerem, fornecendo as ferramentas necessárias para se destacarem' },
+              ].map((v, i) => (
+                <div
+                  key={v.t}
+                  className="flex items-start gap-3 group animate-fade-in-up"
+                  style={{ animationDelay: `${0.15 + i * 0.1}s` }}
+                >
+                  <span className="text-[#6EC8F0] text-lg mt-0.5 transition-transform duration-500 group-hover:rotate-180 group-hover:scale-125">
+                    ◆
+                  </span>
+                  <div>
+                    <strong className="text-white group-hover:text-[#6EC8F0] transition-colors duration-300">
+                      {v.t}
+                    </strong>
+                    <p className="text-sm text-white/60 mt-1">{v.d}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          {/* PILARES ESTRATÉGICOS */}
+          <Section ref={refs.pilares} id="pilares" title="Pilares Estratégicos" delay={0.1}>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {[
+                { t: 'Talent', d: 'Recrutamento & Seleção', c: 'text-white', bg: 'bg-white/5 border border-white/10' },
+                { t: 'Impact', d: 'Gestão Digital', c: 'text-[#6EC8F0]', bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20' },
+                { t: 'Performance', d: 'Performance Analytics', c: 'text-[#4FB0D9]', bg: 'bg-[#4FB0D9]/10 border border-[#4FB0D9]/20' },
+              ].map((p, i) => (
+                <div
+                  key={p.t}
+                  className={`${p.bg} rounded-xl p-5 text-center animate-fade-in-up transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(79,176,217,0.2)] hover:border-[#6EC8F0]/50`}
+                  style={{ animationDelay: `${0.15 + i * 0.12}s` }}
+                >
+                  <span className={`font-heading text-2xl font-bold ${p.c}`}>{p.t}</span>
+                  <p className="text-sm text-white/60 mt-1">{p.d}</p>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          {/* EQUIPA — COM FOTOS */}
+          <Section ref={refs.equipa} id="equipa" title="Equipa" delay={0.1}>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                {
+                  name: 'Beatriz Ferreira',
+                  role: 'Gerente',
+                  area: 'Recrutamento & Gestão',
+                  photo: '/images/beatriz.png',
+                  color: 'border-white/15',
+                },
+                {
+                  name: 'Tomás Ferreira',
+                  role: 'Gerente',
+                  area: 'Estratégia & Performance',
+                  photo: '/images/tomas.png',
+                  color: 'border-[#6EC8F0]/25',
+                },
+              ].map((m, i) => (
+                <div
+                  key={m.name}
+                  className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-[#4FB0D9]/20 flex items-center gap-6 transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(79,176,217,0.15)] group animate-fade-in-up"
+                  style={{ animationDelay: `${0.15 + i * 0.15}s` }}
+                >
+                  {/* FOTO */}
+                  <div className={`relative w-24 h-24 rounded-full overflow-hidden flex-shrink-0 border-2 ${m.color} transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-[0_0_25px_rgba(79,176,217,0.2)]`}>
+                    <Image
+                      src={m.photo}
+                      alt={`Foto de ${m.name}`}
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
+                  </div>
+
+                  <div>
+                    <h4 className="font-heading text-xl font-bold text-white group-hover:text-[#6EC8F0] transition-colors duration-300">
+                      {m.name}
+                    </h4>
+                    <p className="text-[#6EC8F0] font-medium text-sm">{m.role}</p>
+                    <p className="text-white/60 text-sm">{m.area}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          {/* PROVA SOCIAL — COM LOGOTIPOS */}
+          <Section id="prova-social" title="Empresas que confiam em nós" delay={0.1}>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { name: 'MyMoment', logo: '/images/mymoment.png' },
+                { name: 'Coolivin', logo: '/images/coolivin.png' },
+                { name: 'Centro Juvenil', logo: '/images/centro-juvenil.png' },
+                { name: 'Dark Cloud', logo: '/images/dark.png' },
+                { name: 'MadreMedia', logo: '/images/madre.png' },
+                { name: 'CD Cova Piedade', logo: '/images/clube.png' },
+                { name: 'T.E.C. Physio', logo: '/images/pysio.png' },
+                { name: 'Skillfull', logo: '/images/skillfull.png' },
+              ].map((c, i) => (
+                <div
+                  key={c.name}
+                  className="bg-white/5 backdrop-blur-md rounded-xl p-5 border border-[#4FB0D9]/20 flex items-center justify-center min-h-[110px] transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_15px_40px_rgba(79,176,217,0.15)] animate-fade-in-up group"
+                  style={{ animationDelay: `${0.15 + i * 0.05}s` }}
+                >
+                  <div className="relative w-32 h-16 transition-all duration-500 group-hover:scale-110">
+                    <Image
+                      src={c.logo}
+                      alt={`Logo ${c.name}`}
+                      fill
+                      className="object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-500"
+                      sizes="(max-width: 768px) 128px, 128px"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
         </div>
       </div>
     </div>
   );
 }
+
+// ============================================================
+// COMPONENTE — BOTÃO EM NUVEM
+// ============================================================
+
+function CloudButton({
+  label,
+  active,
+  onClick,
+  delay = 0,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  delay?: number;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`
+        relative
+        px-8 py-4
+        font-heading font-bold text-base
+        transition-all duration-500
+        hover:scale-105
+        animate-fade-in-up
+        ${active ? 'text-[#0a0e3f] scale-105' : 'text-white/80 hover:text-[#6EC8F0]'}
+      `}
+      style={{ animationDelay: `${delay}s` }}
+    >
+      <svg
+        viewBox="0 0 220 90"
+        className={`
+          absolute inset-0 w-full h-full transition-all duration-500
+          ${active ? 'text-[#6EC8F0]' : 'text-white/10 hover:text-[#6EC8F0]/30'}
+          ${active ? 'animate-cloud-pulse' : ''}
+        `}
+        fill="currentColor"
+        preserveAspectRatio="none"
+      >
+        <path d="M55 75 Q25 75 25 55 Q25 40 45 37 Q48 15 75 15 Q95 5 120 15 Q150 10 165 30 Q200 32 200 55 Q200 75 165 75 Z" />
+      </svg>
+      <span className="relative z-10 whitespace-nowrap">{label}</span>
+    </button>
+  );
+}
+
+// ============================================================
+// COMPONENTE — SECÇÃO (com fade-in ao entrar no viewport)
+// ============================================================
+
+const Section = forwardRef<
+  HTMLDivElement,
+  { id?: string; title: string; children: React.ReactNode; delay?: number }
+>(({ id, title, children, delay = 0 }, ref) => {
+  const [visible, setVisible] = useState(false);
+  const localRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = localRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Combinar refs
+  const setRefs = (node: HTMLDivElement) => {
+    localRef.current = node;
+    if (typeof ref === 'function') ref(node);
+    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+  };
+
+  return (
+    <div
+      ref={setRefs}
+      id={id}
+      className={`
+        scroll-mt-32
+        transition-all
+        duration-1000
+        ease-out
+        ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+      `}
+      style={{ transitionDelay: `${delay}s` }}
+    >
+      <h2 className="font-heading text-3xl font-bold text-white mb-6 text-center relative">
+        {title}
+        <span className="block mx-auto mt-3 w-16 h-px bg-gradient-to-r from-transparent via-[#6EC8F0] to-transparent" />
+      </h2>
+      <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-[#4FB0D9]/20 shadow-[0_0_40px_rgba(79,176,217,0.08)] transition-all duration-500 hover:border-[#6EC8F0]/30 hover:shadow-[0_0_60px_rgba(110,200,240,0.12)]">
+        {children}
+      </div>
+    </div>
+  );
+});
+Section.displayName = 'Section';

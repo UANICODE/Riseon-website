@@ -9,6 +9,7 @@
   --color-riseon-navy: #0A1628;
   --color-riseon-navy-dark: #050D1A;
   --color-riseon-navy-light: #1A2A40;
+  --color-riseon-navy-soft: #1e2466;      /* ← botões Home + Footer */
 
   /* Blue */
   --color-riseon-blue: #2A7FAA;
@@ -35,11 +36,7 @@
 }
 
 /* ============================================================
-   ROOT
-============================================================ */
-
-/* ============================================================
-   ROOT
+   ROOT VARIABLES
 ============================================================ */
 
 :root {
@@ -50,7 +47,7 @@
   --accent: #4FB0D9;
   --accent-glow: #6EC8F0;
 
-  --surface: #EAF1F7;        /* ← ALTERADO para a cor da imagem */
+  --surface: #EAF1F7;
   --surface-muted: #EAF1F7;
 
   --text-primary: #0A1628;
@@ -71,24 +68,13 @@ html {
 body {
   background-color: var(--surface);
   color: var(--text-primary);
-
-  font-family:
-    'Inter',
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
-
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .font-heading {
-  font-family:
-    'Playfair Display',
-    Georgia,
-    serif;
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
 ::selection {
@@ -105,7 +91,6 @@ body {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
 }
 
@@ -125,7 +110,6 @@ select {
     opacity: 0;
     transform: translateY(30px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -136,23 +120,54 @@ select {
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  opacity: 0;
+  animation: fadeInDown 0.8s ease-out forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-up {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
 /* ============================================================
    BOUNCE
 ============================================================ */
 
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(8px);
-  }
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
-.animate-bounce {
-  animation: bounce 2s infinite;
+.animate-bounce-slow {
+  animation: bounceSlow 2s ease-in-out infinite;
 }
 
 /* ============================================================
@@ -160,13 +175,8 @@ select {
 ============================================================ */
 
 @keyframes shimmer {
-  0% {
-    transform: translateX(-100%) skewX(-15deg);
-  }
-
-  100% {
-    transform: translateX(200%) skewX(-15deg);
-  }
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
 }
 
 .animate-shimmer {
@@ -179,26 +189,17 @@ select {
   }
 }
 
-.group:hover .animate-shimmer {
-  animation-play-state: paused;
-}
-
 /* ============================================================
-   MARQUEE
+   MARQUEE (clientes)
 ============================================================ */
 
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 32s linear infinite;
   display: flex;
 }
 
@@ -217,17 +218,9 @@ select {
 ============================================================ */
 
 @keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .animate-gradient {
@@ -240,607 +233,142 @@ select {
 ============================================================ */
 
 .service-card {
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
-
-  border: 1px solid var(--border-light);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
 .service-card:hover {
-  transform: translateY(-6px);
-
-  box-shadow:
-    0 20px 40px -12px
-    rgba(10, 22, 40, 0.15);
-
-  border-color: var(--accent);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 55px rgba(10, 22, 40, 0.14);
 }
 
 .team-card {
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .team-card:hover {
-  transform: translateY(-4px);
-
-  box-shadow:
-    0 12px 28px -8px
-    rgba(10, 22, 40, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(10, 22, 40, 0.12);
 }
 
 /* ============================================================
-   NAVBAR
+   NAVBAR / MOBILE
 ============================================================ */
-
-.nav-link {
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.nav-link::before {
-  content: "";
-
-  position: absolute;
-
-  inset: -4px -8px;
-
-  border-radius: 8px;
-
-  background: rgba(79, 176, 217, 0.1);
-
-  opacity: 0;
-
-  transition: opacity 0.3s ease;
-}
-
-.nav-link:hover::before {
-  opacity: 1;
-}
-
-.nav-link:hover {
-  color: var(--accent);
-}
-
-/* ============================================================
-   TOUCH TARGETS MOBILE
-============================================================ */
-
-@media (max-width: 768px) {
-  .nav-link-mobile {
-    min-height: 48px;
-    touch-action: manipulation;
-  }
-
-  .nav-cta-mobile {
-    min-height: 52px;
-    touch-action: manipulation;
-  }
-}
 
 body.menu-open {
   overflow: hidden;
 }
 
-@keyframes slideDownMobile {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.mobile-menu-open {
-  animation: slideDownMobile 0.3s ease-out forwards;
+@media (max-width: 768px) {
+  .nav-link-mobile { min-height: 48px; touch-action: manipulation; }
+  .nav-cta-mobile { min-height: 52px; touch-action: manipulation; }
 }
 
 /* ============================================================
-   ============================================================
-   HERO — RISEON
-   ============================================================
+   HERO — LOGO FLUTUANTE
 ============================================================ */
-
-/* ============================================================
-   ENTRADA DO CONTEÚDO
-============================================================ */
-
-@keyframes heroContentReveal {
-  from {
-    opacity: 0;
-    transform:
-      translateY(18px)
-      scale(0.985);
-  }
-
-  to {
-    opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
-  }
-}
-
-.hero-content-animation {
-  animation:
-    heroContentReveal
-    1.4s
-    cubic-bezier(0.22, 1, 0.36, 1)
-    forwards;
-}
-
-/* ============================================================
-   LOGO
-============================================================ */
-
-.hero-logo {
-  animation:
-    heroLogoFloat
-    7s
-    ease-in-out
-    infinite;
-}
 
 @keyframes heroLogoFloat {
-  0%,
-  100% {
-    transform:
-      translateY(0)
-      scale(1);
-  }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.008); }
+}
 
-  50% {
-    transform:
-      translateY(-5px)
-      scale(1.008);
-  }
+.hero-logo {
+  animation: heroLogoFloat 7s ease-in-out infinite;
 }
 
 /* ============================================================
-   ORBE 1
+   HERO — ORBES
 ============================================================ */
 
 @keyframes heroOrbOne {
-  0%,
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-  }
-
-  25% {
-    transform:
-      translate3d(70px, -40px, 0)
-      scale(1.08);
-  }
-
-  50% {
-    transform:
-      translate3d(30px, 60px, 0)
-      scale(0.92);
-  }
-
-  75% {
-    transform:
-      translate3d(-50px, 25px, 0)
-      scale(1.05);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  25% { transform: translate3d(70px, -40px, 0) scale(1.08); }
+  50% { transform: translate3d(30px, 60px, 0) scale(0.92); }
+  75% { transform: translate3d(-50px, 25px, 0) scale(1.05); }
 }
 
 .animate-hero-orb-1 {
-  animation:
-    heroOrbOne
-    18s
-    ease-in-out
-    infinite;
+  animation: heroOrbOne 18s ease-in-out infinite;
 }
 
-/* ============================================================
-   ORBE 2
-============================================================ */
-
 @keyframes heroOrbTwo {
-  0%,
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-  }
-
-  30% {
-    transform:
-      translate3d(-80px, 45px, 0)
-      scale(1.12);
-  }
-
-  60% {
-    transform:
-      translate3d(-30px, -60px, 0)
-      scale(0.9);
-  }
-
-  80% {
-    transform:
-      translate3d(50px, -15px, 0)
-      scale(1.06);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  30% { transform: translate3d(-80px, 45px, 0) scale(1.12); }
+  60% { transform: translate3d(-30px, -60px, 0) scale(0.9); }
+  80% { transform: translate3d(50px, -15px, 0) scale(1.06); }
 }
 
 .animate-hero-orb-2 {
-  animation:
-    heroOrbTwo
-    23s
-    ease-in-out
-    infinite;
+  animation: heroOrbTwo 23s ease-in-out infinite;
 }
 
-/* ============================================================
-   ORBE 3
-============================================================ */
-
 @keyframes heroOrbThree {
-  0%,
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-  }
-
-  50% {
-    transform:
-      translate3d(90px, -70px, 0)
-      scale(1.15);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(90px, -70px, 0) scale(1.15); }
 }
 
 .animate-hero-orb-3 {
-  animation:
-    heroOrbThree
-    15s
-    ease-in-out
-    infinite;
+  animation: heroOrbThree 15s ease-in-out infinite;
 }
 
 /* ============================================================
-   PEQUENAS PARTÍCULAS
+   HOME — ESTRELAS
 ============================================================ */
 
-@keyframes floatingDot {
-  0%,
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-
-    opacity: 0.35;
-  }
-
-  50% {
-    transform:
-      translate3d(15px, -25px, 0)
-      scale(1.4);
-
-    opacity: 0.8;
-  }
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
 }
 
-.animate-floating-dot {
-  animation:
-    floatingDot
-    5s
-    ease-in-out
-    infinite;
-}
-
-@keyframes floatingDotDelayed {
-  0%,
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-
-    opacity: 0.3;
-  }
-
-  50% {
-    transform:
-      translate3d(-18px, 30px, 0)
-      scale(1.5);
-
-    opacity: 0.9;
-  }
-}
-
-.animate-floating-dot-delayed {
-  animation:
-    floatingDotDelayed
-    6.5s
-    ease-in-out
-    infinite;
-
-  animation-delay: -2s;
+.animate-star-twinkle {
+  animation: starTwinkle 4s ease-in-out infinite;
 }
 
 /* ============================================================
-   HERO NAV PILLS
+   HOME — SCROLL DOT (bolinha dentro do cilindro)
 ============================================================ */
 
-.hero-nav-pill {
-  position: relative;
-
-  min-width: 130px;
-
-  padding:
-    13px
-    28px;
-
-  border-radius: 9999px;
-
-  color: rgba(255, 255, 255, 0.78);
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  letter-spacing: 0.02em;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.025)
-    );
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.055);
-
-  box-shadow:
-    inset 0 1px 0
-    rgba(255, 255, 255, 0.035),
-    0 10px 30px
-    rgba(0, 0, 0, 0.12);
-
-  backdrop-filter: blur(10px);
-
-  transition:
-    color 0.35s ease,
-    border-color 0.35s ease,
-    background 0.35s ease,
-    transform 0.35s ease,
-    box-shadow 0.35s ease;
+@keyframes scrollDot {
+  0% { opacity: 0; transform: translateY(0); }
+  25% { opacity: 1; }
+  75% { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(28px); }
 }
 
-.hero-nav-pill::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  border-radius: inherit;
-
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(79, 176, 217, 0.16),
-      transparent 65%
-    );
-
-  opacity: 0;
-
-  transition: opacity 0.35s ease;
-}
-
-.hero-nav-pill:hover {
-  color: white;
-
-  border-color:
-    rgba(79, 176, 217, 0.55);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(79, 176, 217, 0.12),
-      rgba(79, 176, 217, 0.045)
-    );
-
-  transform:
-    translateY(-3px);
-
-  box-shadow:
-    0 12px 30px
-    rgba(79, 176, 217, 0.12),
-    inset 0 1px 0
-    rgba(255, 255, 255, 0.06);
-}
-
-.hero-nav-pill:hover::before {
-  opacity: 1;
-}
-
-.hero-nav-pill span {
-  position: relative;
-  z-index: 1;
+.animate-scroll-dot {
+  animation: scrollDot 1.8s ease-in-out infinite;
 }
 
 /* ============================================================
-   LINHA DECORATIVA
+   HOME — MÃO / CURSOR A APONTAR
 ============================================================ */
 
-.hero-line {
-  position: relative;
-
-  width: 90px;
-
-  height: 1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(79, 176, 217, 0.5),
-      transparent
-    );
+@keyframes handTap {
+  0%, 100% { opacity: 0; transform: translate(-50%, 0); }
+  30% { opacity: 1; transform: translate(-50%, -4px); }
+  60% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 0; transform: translate(-50%, 0); }
 }
 
-.hero-line::before,
-.hero-line::after {
-  content: "";
-
-  position: absolute;
-
-  top: 50%;
-
-  width: 3px;
-
-  height: 3px;
-
-  border-radius: 9999px;
-
-  background: #4FB0D9;
-
-  transform: translateY(-50%);
-
-  box-shadow:
-    0 0 10px
-    rgba(79, 176, 217, 0.8);
-}
-
-.hero-line::before {
-  left: 20%;
-}
-
-.hero-line::after {
-  right: 20%;
+.animate-hand-tap {
+  animation: handTap 2.2s ease-in-out infinite;
 }
 
 /* ============================================================
-   SCROLL MOUSE
+   SOBRE / SERVIÇOS — NUVEM PULSANTE
 ============================================================ */
 
-.scroll-mouse {
-  position: relative;
-
-  width: 22px;
-
-  height: 34px;
-
-  border:
-    1.5px solid
-    rgba(79, 176, 217, 0.65);
-
-  border-radius: 999px;
-
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
+@keyframes cloudPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.03); }
 }
 
-.group:hover .scroll-mouse {
-  border-color: #4FB0D9;
-
-  box-shadow:
-    0 0 18px
-    rgba(79, 176, 217, 0.2);
-
-  transform:
-    translateY(2px);
-}
-
-.scroll-wheel {
-  position: absolute;
-
-  left: 50%;
-
-  top: 6px;
-
-  width: 3px;
-
-  height: 7px;
-
-  border-radius: 999px;
-
-  background: #4FB0D9;
-
-  transform:
-    translateX(-50%);
-
-  animation:
-    scrollWheel
-    1.8s
-    ease-in-out
-    infinite;
-}
-
-@keyframes scrollWheel {
-  0% {
-    opacity: 0;
-
-    transform:
-      translateX(-50%)
-      translateY(0);
-  }
-
-  25% {
-    opacity: 1;
-  }
-
-  70% {
-    opacity: 0.7;
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      translateX(-50%)
-      translateY(13px);
-  }
+.animate-cloud-pulse {
+  animation: cloudPulse 3s ease-in-out infinite;
 }
 
 /* ============================================================
-   RESPONSIVIDADE HERO
-============================================================ */
-
-@media (max-width: 640px) {
-  .hero-nav-pill {
-    min-width: 105px;
-
-    padding:
-      11px
-      18px;
-
-    font-size: 12px;
-  }
-}
-
-@media (max-height: 700px) {
-  .hero-logo {
-    transform: scale(0.86);
-  }
-
-  .hero-nav-pill {
-    padding:
-      10px
-      22px;
-  }
-
-  .hero-content-animation nav {
-    margin-top: -5px;
-  }
-}
-
-/* ============================================================
-   REDUZIR MOVIMENTO PARA UTILIZADORES QUE PREFEREM
-   MENOS ANIMAÇÃO
+   REDUÇÃO DE MOVIMENTO
 ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -854,654 +382,5 @@ body.menu-open {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-
-/* ============================================================
-   RISEON — HERO PREMIUM
-============================================================ */
-
-/* Entrada do conteúdo */
-
-@keyframes heroContentReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(28px) scale(0.97);
-    filter: blur(8px);
-  }
-
-  60% {
-    filter: blur(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-.hero-content-animation {
-  animation:
-    heroContentReveal
-    1.4s
-    cubic-bezier(0.16, 1, 0.3, 1)
-    forwards;
-}
-
-
-/* ============================================================
-   LOGO
-============================================================ */
-
-.hero-logo {
-  animation:
-    heroLogoFloat
-    7s
-    ease-in-out
-    infinite;
-}
-
-@keyframes heroLogoFloat {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-
-  50% {
-    transform: translateY(-5px) scale(1.012);
-  }
-}
-
-
-/* ============================================================
-   ORBES GRANDES
-============================================================ */
-
-@keyframes heroOrbOne {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  25% {
-    transform: translate3d(70px, -30px, 0) scale(1.08);
-  }
-
-  50% {
-    transform: translate3d(120px, 40px, 0) scale(0.95);
-  }
-
-  75% {
-    transform: translate3d(40px, 80px, 0) scale(1.05);
-  }
-}
-
-@keyframes heroOrbTwo {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  30% {
-    transform: translate3d(-80px, 40px, 0) scale(1.08);
-  }
-
-  60% {
-    transform: translate3d(-40px, -50px, 0) scale(0.94);
-  }
-
-  85% {
-    transform: translate3d(30px, -20px, 0) scale(1.04);
-  }
-}
-
-@keyframes heroOrbThree {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  40% {
-    transform: translate3d(80px, -40px, 0) scale(1.1);
-  }
-
-  70% {
-    transform: translate3d(130px, 20px, 0) scale(0.94);
-  }
-}
-
-.animate-hero-orb-1 {
-  animation:
-    heroOrbOne
-    16s
-    ease-in-out
-    infinite;
-}
-
-.animate-hero-orb-2 {
-  animation:
-    heroOrbTwo
-    20s
-    ease-in-out
-    infinite;
-}
-
-.animate-hero-orb-3 {
-  animation:
-    heroOrbThree
-    14s
-    ease-in-out
-    infinite;
-}
-
-
-/* ============================================================
-   PONTOS FLUTUANTES
-============================================================ */
-
-@keyframes floatingDot {
-  0%,
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-    opacity: 0.45;
-  }
-
-  25% {
-    transform:
-      translate3d(18px, -25px, 0)
-      scale(1.3);
-    opacity: 0.9;
-  }
-
-  50% {
-    transform:
-      translate3d(-8px, -45px, 0)
-      scale(0.8);
-    opacity: 0.5;
-  }
-
-  75% {
-    transform:
-      translate3d(-25px, -15px, 0)
-      scale(1.15);
-    opacity: 0.8;
-  }
-}
-
-@keyframes floatingDotDelayed {
-  0%,
-  100% {
-    transform:
-      translate3d(0, 0, 0)
-      scale(1);
-    opacity: 0.35;
-  }
-
-  30% {
-    transform:
-      translate3d(-20px, 30px, 0)
-      scale(1.4);
-    opacity: 0.8;
-  }
-
-  60% {
-    transform:
-      translate3d(20px, 50px, 0)
-      scale(0.75);
-    opacity: 0.4;
-  }
-}
-
-.animate-floating-dot {
-  animation:
-    floatingDot
-    7s
-    ease-in-out
-    infinite;
-}
-
-.animate-floating-dot-delayed {
-  animation:
-    floatingDotDelayed
-    9s
-    ease-in-out
-    infinite;
-}
-
-
-/* ============================================================
-   MENU DO HERO
-============================================================ */
-
-.hero-nav-pill {
-  position: relative;
-
-  min-width: 130px;
-
-  padding:
-    13px
-    28px;
-
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.08),
-      rgba(255, 255, 255, 0.035)
-    );
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.08);
-
-  color:
-    rgba(255, 255, 255, 0.82);
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  letter-spacing: 0.02em;
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  overflow: hidden;
-
-  transition:
-    transform 0.4s ease,
-    color 0.4s ease,
-    border-color 0.4s ease,
-    box-shadow 0.4s ease,
-    background 0.4s ease;
-}
-
-.hero-nav-pill::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    linear-gradient(
-      120deg,
-      transparent 20%,
-      rgba(79, 176, 217, 0.22) 50%,
-      transparent 80%
-    );
-
-  transform:
-    translateX(-120%);
-
-  transition:
-    transform 0.65s ease;
-}
-
-.hero-nav-pill span {
-  position: relative;
-  z-index: 2;
-}
-
-.hero-nav-pill:hover {
-  color: white;
-
-  transform:
-    translateY(-4px);
-
-  border-color:
-    rgba(79, 176, 217, 0.55);
-
-  background:
-    rgba(79, 176, 217, 0.10);
-
-  box-shadow:
-    0 10px 35px
-    rgba(79, 176, 217, 0.14);
-}
-
-.hero-nav-pill:hover::before {
-  transform:
-    translateX(120%);
-}
-
-
-/* ============================================================
-   LINHA CENTRAL
-============================================================ */
-
-.hero-line {
-  position: relative;
-
-  width: 100px;
-  height: 1px;
-
-  background:
-    linear-gradient(
-      to right,
-      transparent,
-      rgba(79, 176, 217, 0.65),
-      transparent
-    );
-}
-
-.hero-line::before,
-.hero-line::after {
-  content: "";
-
-  position: absolute;
-
-  top: 50%;
-
-  width: 4px;
-  height: 4px;
-
-  border-radius: 999px;
-
-  background:
-    #4FB0D9;
-
-  box-shadow:
-    0 0 12px
-    rgba(79, 176, 217, 0.8);
-
-  transform:
-    translateY(-50%);
-}
-
-.hero-line::before {
-  left: 20px;
-}
-
-.hero-line::after {
-  right: 20px;
-}
-
-.hero-line span {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: 5px;
-  height: 5px;
-
-  border-radius: 999px;
-
-  background: #6EC8F0;
-
-  box-shadow:
-    0 0 15px
-    rgba(110, 200, 240, 0.9);
-
-  transform:
-    translate(-50%, -50%);
-
-  animation:
-    heroLinePulse
-    2.5s
-    ease-in-out
-    infinite;
-}
-
-@keyframes heroLinePulse {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform:
-      translate(-50%, -50%)
-      scale(0.8);
-  }
-
-  50% {
-    opacity: 1;
-    transform:
-      translate(-50%, -50%)
-      scale(1.5);
-  }
-}
-
-
-/* ============================================================
-   SCROLL MOUSE
-============================================================ */
-
-.scroll-mouse {
-  width: 21px;
-  height: 34px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.28);
-
-  border-radius: 999px;
-
-  display:
-    flex;
-
-  justify-content:
-    center;
-
-  padding-top: 6px;
-
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.group:hover .scroll-mouse {
-  border-color:
-    rgba(79, 176, 217, 0.8);
-
-  box-shadow:
-    0 0 20px
-    rgba(79, 176, 217, 0.12);
-}
-
-.scroll-wheel {
-  width: 3px;
-  height: 7px;
-
-  border-radius: 999px;
-
-  background:
-    rgba(255, 255, 255, 0.6);
-
-  animation:
-    scrollWheel
-    1.8s
-    ease-in-out
-    infinite;
-}
-
-@keyframes scrollWheel {
-  0% {
-    transform:
-      translateY(0);
-
-    opacity: 0;
-  }
-
-  20% {
-    opacity: 1;
-  }
-
-  70% {
-    transform:
-      translateY(12px);
-
-    opacity: 0;
-  }
-
-  100% {
-    transform:
-      translateY(12px);
-
-    opacity: 0;
-  }
-}
-
-
-/* ============================================================
-   MARQUEE
-============================================================ */
-
-@keyframes marquee {
-  from {
-    transform:
-      translateX(0);
-  }
-
-  to {
-    transform:
-      translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation:
-    marquee
-    32s
-    linear
-    infinite;
-
-  display: flex;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-
-/* ============================================================
-   CARDS
-============================================================ */
-
-.service-card {
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease,
-    border-color 0.4s ease;
-}
-
-.service-card:hover {
-  transform:
-    translateY(-8px);
-
-  box-shadow:
-    0 25px 55px
-    rgba(10, 22, 40, 0.14);
-}
-
-.team-card {
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease,
-    border-color 0.4s ease;
-}
-
-.team-card:hover {
-  transform:
-    translateY(-6px);
-
-  box-shadow:
-    0 20px 45px
-    rgba(10, 22, 40, 0.12);
-}
-
-
-/* ============================================================
-   FADE IN
-============================================================ */
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-
-    transform:
-      translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translateY(0);
-  }
-}
-
-.fade-in-up {
-  animation:
-    fadeInUp
-    0.9s
-    ease-out
-    forwards;
-}
-
-
-/* ============================================================
-   REDUÇÃO DE MOVIMENTO
-============================================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-
-    animation-iteration-count: 1 !important;
-
-    scroll-behavior: auto !important;
-
-    transition-duration: 0.01ms !important;
-  }
-}
-
-
-/* ============================================================
-   MOBILE
-============================================================ */
-
-@media (max-width: 640px) {
-  .hero-nav-pill {
-    min-width: 100px;
-
-    padding:
-      11px
-      20px;
-
-    font-size: 12px;
-  }
-
-  .hero-line {
-    width: 70px;
-  }
-
-  .hero-line::before {
-    left: 12px;
-  }
-
-  .hero-line::after {
-    right: 12px;
-  }
-}
-
-
-/* ============================================================
-   TABLET
-============================================================ */
-
-@media (min-width: 641px) and (max-width: 1024px) {
-  .hero-nav-pill {
-    min-width: 120px;
-
-    padding:
-      12px
-      24px;
   }
 }

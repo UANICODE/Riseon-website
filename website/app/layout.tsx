@@ -37,7 +37,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col antialiased bg-riseon-surface text-riseon-text">
         {/* Navbar removido daqui - agora está apenas nas outras páginas */}
         <main className="flex-1">{children}</main>
-        <Footer/>
+
       </body>
     </html>
   );
