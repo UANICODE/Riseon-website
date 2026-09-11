@@ -21,32 +21,13 @@ export default function Sobre() {
     equipa: useRef<HTMLDivElement>(null),
   };
 
-  // Detetar secção ativa ao scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY + 200;
-      for (const id of Object.keys(refs) as (keyof typeof refs)[]) {
-        const el = refs[id].current;
-        if (el) {
-          const top = el.offsetTop;
-          const bottom = top + el.offsetHeight;
-          if (scrollY >= top && scrollY < bottom) {
-            setActive(id);
-            break;
-          }
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollTo = (id: keyof typeof refs) => {
-    const el = refs[id].current;
+  const scrollTo = (id: string) => {
+    setActive(id);
+    // Scroll suave até à secção
+    const el = refs[id as keyof typeof refs]?.current;
     if (el) {
       window.scrollTo({
-        top: el.offsetTop - 100,
+        top: el.offsetTop - 120,
         behavior: 'smooth',
       });
     }
@@ -93,10 +74,10 @@ export default function Sobre() {
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#2A7FAA]/10 rounded-full blur-3xl pointer-events-none animate-hero-orb-2" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#4FB0D9]/5 rounded-full blur-3xl pointer-events-none animate-hero-orb-3" />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* ======================================================
-            HEADER — LOGO GRANDE + NAV BRANCO
+            HEADER — LOGO S/ SLOGAN
         ====================================================== */}
 
         <div className="flex items-center justify-between border-b border-[#4FB0D9]/20 pb-6 mb-12 animate-fade-in-down">
@@ -112,11 +93,12 @@ export default function Sobre() {
             "
           >
             <Image
-              src="/images/logo.png"
+              src="/images/logo_sem_slogan.png"
               alt="RiseON"
               fill
               className="object-contain object-left"
               priority
+              quality={100}
               sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, 288px"
             />
           </Link>
@@ -186,10 +168,7 @@ export default function Sobre() {
                 label={s.label}
                 active={active === s.id}
                 delay={i * 0.1}
-                onClick={() => {
-                  setActive(s.id);
-                  scrollTo(s.id as keyof typeof refs);
-                }}
+                onClick={() => scrollTo(s.id)}
               />
             ))}
           </div>
@@ -201,10 +180,7 @@ export default function Sobre() {
                 label={s.label}
                 active={active === s.id}
                 delay={i * 0.1}
-                onClick={() => {
-                  setActive(s.id);
-                  scrollTo(s.id as keyof typeof refs);
-                }}
+                onClick={() => scrollTo(s.id)}
               />
             ))}
           </div>
@@ -260,15 +236,30 @@ export default function Sobre() {
 
           {/* PILARES ESTRATÉGICOS */}
           <Section ref={refs.pilares} id="pilares" title="Pilares Estratégicos" delay={0.1}>
-            <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-3 gap-6">
               {[
-                { t: 'Talent', d: 'Recrutamento & Seleção', c: 'text-white', bg: 'bg-white/5 border border-white/10' },
-                { t: 'Impact', d: 'Gestão Digital', c: 'text-[#6EC8F0]', bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20' },
-                { t: 'Performance', d: 'Performance Analytics', c: 'text-[#4FB0D9]', bg: 'bg-[#4FB0D9]/10 border border-[#4FB0D9]/20' },
+                {
+                  t: 'Talento',
+                  d: 'Recrutamento & Seleção',
+                  c: 'text-white',
+                  bg: 'bg-white/5 border border-white/10',
+                },
+                {
+                  t: 'Impacto',
+                  d: 'Gestão de Plataformas Digitais',
+                  c: 'text-[#6EC8F0]',
+                  bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20',
+                },
+                {
+                  t: 'Performance',
+                  d: 'Performance Analytics',
+                  c: 'text-[#4FB0D9]',
+                  bg: 'bg-[#4FB0D9]/10 border border-[#4FB0D9]/20',
+                },
               ].map((p, i) => (
                 <div
                   key={p.t}
-                  className={`${p.bg} rounded-xl p-5 text-center animate-fade-in-up transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(79,176,217,0.2)] hover:border-[#6EC8F0]/50`}
+                  className={`${p.bg} rounded-xl p-6 text-center animate-fade-in-up transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(79,176,217,0.2)] hover:border-[#6EC8F0]/50 flex flex-col items-center`}
                   style={{ animationDelay: `${0.15 + i * 0.12}s` }}
                 >
                   <span className={`font-heading text-2xl font-bold ${p.c}`}>{p.t}</span>
@@ -325,22 +316,58 @@ export default function Sobre() {
             </div>
           </Section>
 
-          {/* PROVA SOCIAL — COM LOGOTIPOS */}
+          {/* PROVA SOCIAL — LINKS DIRETOS PARA OS WEBSITES */}
           <Section id="prova-social" title="Empresas que confiam em nós" delay={0.1}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: 'MyMoment', logo: '/images/mymoment.png' },
-                { name: 'Coolivin', logo: '/images/coolivin.png' },
-                { name: 'Centro Juvenil', logo: '/images/centro-juvenil.png' },
-                { name: 'Dark Cloud', logo: '/images/dark.png' },
-                { name: 'MadreMedia', logo: '/images/madre.png' },
-                { name: 'CD Cova Piedade', logo: '/images/clube.png' },
-                { name: 'T.E.C. Physio', logo: '/images/pysio.png' },
-                { name: 'Skillfull', logo: '/images/skillfull.png' },
+                {
+                  name: 'MyMoment',
+                  logo: '/images/mymoment.png',
+                  website: 'https://mymoment.pt/',
+                },
+                {
+                  name: 'Coolivin',
+                  logo: '/images/coolivin.png',
+                  website: 'https://coolivin.com/pt',
+                },
+                {
+                  name: 'Centro Juvenil',
+                  logo: '/images/centro-juvenil.png',
+                  website: 'https://cjsj.pt/',
+                },
+                {
+                  name: 'Dark Cloud',
+                  logo: '/images/dark.png',
+                  website: 'https://www.darkcloud.pt/',
+                },
+                {
+                  name: 'MadreMedia',
+                  logo: '/images/madre.png',
+                  website: 'https://madremedia.pt/',
+                },
+                {
+                  name: 'CD Cova Piedade',
+                  logo: '/images/clube.png',
+                  website: 'https://www.cdcovapiedade.pt/',
+                },
+                {
+                  name: 'Mundial Exemplar',
+                  logo: '/images/mundo_exemplar.png',
+                  website:
+                    'https://mundialexemplarcuidadosnolar.pt/',
+                },
+                {
+                  name: 'Skillfull',
+                  logo: '/images/skillfull.png',
+                  website: 'https://www.skillfull.pt/',
+                },
               ].map((c, i) => (
-                <div
+                <a
                   key={c.name}
-                  className="bg-white/5 backdrop-blur-md rounded-xl p-5 border border-[#4FB0D9]/20 flex items-center justify-center min-h-[110px] transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_15px_40px_rgba(79,176,217,0.15)] animate-fade-in-up group"
+                  href={c.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/5 backdrop-blur-md rounded-xl p-5 border border-[#4FB0D9]/20 flex items-center justify-center min-h-[110px] transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_15px_40px_rgba(79,176,217,0.15)] animate-fade-in-up group cursor-pointer"
                   style={{ animationDelay: `${0.15 + i * 0.05}s` }}
                 >
                   <div className="relative w-32 h-16 transition-all duration-500 group-hover:scale-110">
@@ -352,7 +379,7 @@ export default function Sobre() {
                       sizes="(max-width: 768px) 128px, 128px"
                     />
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </Section>
@@ -382,8 +409,8 @@ function CloudButton({
       onClick={onClick}
       className={`
         relative
-        px-8 py-4
-        font-heading font-bold text-base
+        px-10 py-5
+        font-heading font-bold text-lg
         transition-all duration-500
         hover:scale-105
         animate-fade-in-up
@@ -392,7 +419,7 @@ function CloudButton({
       style={{ animationDelay: `${delay}s` }}
     >
       <svg
-        viewBox="0 0 220 90"
+        viewBox="0 0 260 110"
         className={`
           absolute inset-0 w-full h-full transition-all duration-500
           ${active ? 'text-[#6EC8F0]' : 'text-white/10 hover:text-[#6EC8F0]/30'}
@@ -401,7 +428,7 @@ function CloudButton({
         fill="currentColor"
         preserveAspectRatio="none"
       >
-        <path d="M55 75 Q25 75 25 55 Q25 40 45 37 Q48 15 75 15 Q95 5 120 15 Q150 10 165 30 Q200 32 200 55 Q200 75 165 75 Z" />
+        <path d="M65 90 Q25 90 25 65 Q25 45 55 42 Q58 15 95 15 Q120 5 150 15 Q185 10 205 35 Q245 38 245 65 Q245 90 205 90 Z" />
       </svg>
       <span className="relative z-10 whitespace-nowrap">{label}</span>
     </button>
@@ -409,62 +436,21 @@ function CloudButton({
 }
 
 // ============================================================
-// COMPONENTE — SECÇÃO (com fade-in ao entrar no viewport)
+// COMPONENTE — SECÇÃO
 // ============================================================
 
 const Section = forwardRef<
   HTMLDivElement,
   { id?: string; title: string; children: React.ReactNode; delay?: number }
->(({ id, title, children, delay = 0 }, ref) => {
-  const [visible, setVisible] = useState(false);
-  const localRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = localRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  // Combinar refs
-  const setRefs = (node: HTMLDivElement) => {
-    localRef.current = node;
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-  };
-
-  return (
-    <div
-      ref={setRefs}
-      id={id}
-      className={`
-        scroll-mt-32
-        transition-all
-        duration-1000
-        ease-out
-        ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
-      `}
-      style={{ transitionDelay: `${delay}s` }}
-    >
-      <h2 className="font-heading text-3xl font-bold text-white mb-6 text-center relative">
-        {title}
-        <span className="block mx-auto mt-3 w-16 h-px bg-gradient-to-r from-transparent via-[#6EC8F0] to-transparent" />
-      </h2>
-      <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-[#4FB0D9]/20 shadow-[0_0_40px_rgba(79,176,217,0.08)] transition-all duration-500 hover:border-[#6EC8F0]/30 hover:shadow-[0_0_60px_rgba(110,200,240,0.12)]">
-        {children}
-      </div>
+>(({ id, title, children, delay = 0 }, ref) => (
+  <div ref={ref} id={id} className="scroll-mt-32 animate-fade-in-up" style={{ animationDelay: `${delay}s` }}>
+    <h2 className="font-heading text-3xl font-bold text-white mb-6 text-center relative">
+      {title}
+      <span className="block mx-auto mt-3 w-16 h-px bg-gradient-to-r from-transparent via-[#6EC8F0] to-transparent" />
+    </h2>
+    <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-[#4FB0D9]/20 shadow-[0_0_40px_rgba(79,176,217,0.08)] transition-all duration-500 hover:border-[#6EC8F0]/30 hover:shadow-[0_0_60px_rgba(110,200,240,0.12)]">
+      {children}
     </div>
-  );
-});
+  </div>
+));
 Section.displayName = 'Section';

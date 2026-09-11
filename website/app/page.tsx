@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -11,29 +11,71 @@ export default function Home() {
     setMenuVisible(true);
   };
 
+  // ==========================================================
+  // SCROLL UP → REPOR SWIPE
+  // ==========================================================
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Se o utilizador fizer scroll para cima E o menu estiver visível
+      if (currentScrollY < lastScrollY && menuVisible) {
+        setMenuVisible(false);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [menuVisible]);
+
   return (
     <section
       id="hero"
       className="relative min-h-screen h-screen flex items-center justify-center overflow-hidden bg-[#0a0e3f]"
     >
       {/* ======================================================
-          FUNDO — GRADIENTE AZUL ESCURO
+          FUNDO — GRADIENTE AZUL ESCURO (desloca para baixo ao abrir)
       ====================================================== */}
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e3f] via-[#0d1350] to-[#1a1a6e]" />
+      <div
+        className={`
+          absolute inset-0
+          bg-gradient-to-b from-[#0a0e3f] via-[#0d1350] to-[#1a1a6e]
+          transition-transform duration-1000 ease-out
+          ${menuVisible ? 'translate-y-16' : 'translate-y-0'}
+        `}
+      />
 
       {/* Glow central azul */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(79,176,217,0.18),transparent_55%)]" />
+      <div
+        className={`
+          absolute inset-0
+          bg-[radial-gradient(circle_at_50%_45%,rgba(79,176,217,0.18),transparent_55%)]
+          transition-transform duration-1000 ease-out
+          ${menuVisible ? 'translate-y-16' : 'translate-y-0'}
+        `}
+      />
 
       {/* ======================================================
           ESTRELAS
       ====================================================== */}
 
-      <div className="absolute inset-0 pointer-events-none">
+      <div
+        className={`
+          absolute inset-0 pointer-events-none
+          transition-transform duration-1000 ease-out
+          ${menuVisible ? 'translate-y-16' : 'translate-y-0'}
+        `}
+      >
         {Array.from({ length: 90 }).map((_, i) => {
           const size = (i % 3) + 0.8;
-          const top = ((i * 47.3) % 100);
-          const left = ((i * 83.7) % 100);
+          const top = (i * 47.3) % 100;
+          const left = (i * 83.7) % 100;
           const opacity = 0.2 + ((i * 13) % 60) / 100;
           const delay = ((i * 17) % 50) / 10;
           const duration = 3 + ((i * 7) % 40) / 10;
@@ -56,11 +98,18 @@ export default function Home() {
       </div>
 
       {/* ======================================================
-          CONTEÚDO CENTRAL
+          CONTEÚDO CENTRAL (logo sobe ao abrir menu)
       ====================================================== */}
 
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 flex flex-col items-center justify-center text-center">
-
+      <div
+        className={`
+          relative z-10
+          w-full max-w-[1400px] mx-auto px-5 sm:px-8
+          flex flex-col items-center justify-center text-center
+          transition-transform duration-1000 ease-out
+          ${menuVisible ? '-translate-y-6' : 'translate-y-0'}
+        `}
+      >
         {/* LOGO */}
         <div className="relative flex justify-center items-center w-full">
           <div
@@ -79,16 +128,15 @@ export default function Home() {
               alt="Logotipo RiseON"
               fill
               priority
+              quality={100}
               sizes="(max-width: 640px) 360px, (max-width: 768px) 500px, (max-width: 1024px) 640px, (max-width: 1280px) 820px, 980px"
               className="object-contain drop-shadow-[0_0_60px_rgba(79,176,217,0.35)]"
             />
           </div>
         </div>
 
-   
-
         {/* ======================================================
-            SWIPE ANIMADO (CILINDRO VERTICAL)
+            SWIPE ANIMADO — SEM A MÃO
         ====================================================== */}
 
         <button
@@ -98,8 +146,7 @@ export default function Home() {
             relative
             mt-10 sm:mt-12
             group
-            transition-all
-            duration-700
+            transition-all duration-700
             ${menuVisible ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'}
           `}
         >
@@ -125,24 +172,7 @@ export default function Home() {
             {/* Bolinha animada dentro do cilindro */}
             <div className="w-[4px] h-[14px] rounded-full bg-[#4FB0D9] animate-scroll-dot shadow-[0_0_10px_rgba(79,176,217,0.9)]" />
 
-            {/* Mãozinha / cursor a apontar */}
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 animate-hand-tap">
-              <svg
-                width="22"
-                height="26"
-                viewBox="0 0 24 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 2C9 1.44772 9.44772 1 10 1C10.5523 1 11 1.44772 11 2V12M11 12V4C11 3.44772 11.4477 3 12 3C12.5523 3 13 3.44772 13 4V12M13 12V6C13 5.44772 13.4477 5 14 5C14.5523 5 15 5.44772 15 6V13M15 13V9C15 8.44772 15.4477 8 16 8C16.5523 8 17 8.44772 17 9V17C17 22 14 26 10 26C6 26 3 23 3 19V13C3 12.4477 3.44772 12 4 12C4.55228 12 5 12.4477 5 13V17"
-                  stroke="#4FB0D9"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+            {/* ❌ MÃO REMOVIDA — era o bloco `animate-hand-tap` */}
           </div>
         </button>
 
@@ -153,15 +183,9 @@ export default function Home() {
         <nav
           className={`
             mt-8 sm:mt-10
-            flex
-            flex-wrap
-            justify-center
-            items-center
-            gap-4
-            sm:gap-6
-            transition-all
-            duration-700
-            ease-out
+            flex flex-wrap justify-center items-center
+            gap-4 sm:gap-6
+            transition-all duration-700 ease-out
             ${
               menuVisible
                 ? 'opacity-100 translate-y-0 pointer-events-auto'
@@ -176,8 +200,7 @@ export default function Home() {
               rounded-full
               bg-[#1e2466]
               border border-[#4FB0D9]/25
-              font-semibold
-              text-sm tracking-wide
+              font-semibold text-sm tracking-wide
               hover:bg-[#4FB0D9]
               hover:border-[#4FB0D9]
               hover:shadow-lg hover:shadow-[#4FB0D9]/30
@@ -196,8 +219,7 @@ export default function Home() {
               rounded-full
               bg-[#1e2466]
               border border-[#4FB0D9]/25
-              font-semibold
-              text-sm tracking-wide
+              font-semibold text-sm tracking-wide
               hover:bg-[#4FB0D9]
               hover:border-[#4FB0D9]
               hover:shadow-lg hover:shadow-[#4FB0D9]/30
@@ -216,8 +238,7 @@ export default function Home() {
               rounded-full
               bg-[#1e2466]
               border border-[#4FB0D9]/25
-              font-semibold
-              text-sm tracking-wide
+              font-semibold text-sm tracking-wide
               hover:bg-[#4FB0D9]
               hover:border-[#4FB0D9]
               hover:shadow-lg hover:shadow-[#4FB0D9]/30
@@ -232,7 +253,7 @@ export default function Home() {
       </div>
 
       {/* ======================================================
-          CURVA DE BAIXO — FIXA (não animada)
+          CURVA DE BAIXO — FIXA
       ====================================================== */}
 
       <svg
@@ -260,10 +281,10 @@ export default function Home() {
       </svg>
 
       {/* ======================================================
-          REDES SOCIAIS — CANTO INFERIOR DIREITO
+          REDES SOCIAIS — ABAIXO DA LINHA (z-[6])
       ====================================================== */}
 
-      <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-20 flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+      <div className="absolute bottom-4 right-6 sm:bottom-5 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4">
         {/* INSTAGRAM */}
         <a
           href="https://instagram.com/riseon.pt"

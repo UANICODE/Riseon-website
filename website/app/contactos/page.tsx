@@ -43,21 +43,56 @@ function Footer() {
 
   return (
     <footer className="bg-[#0A1628] text-white/90 relative overflow-hidden mt-16">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0A1628] via-[#0A1628]/95 to-[#050D1A]/90 pointer-events-none"></div>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#4FB0D9]/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#2A7FAA]/5 rounded-full blur-3xl pointer-events-none"></div>
+      {/* ======================================================
+          CURVA SUPERIOR — MESMA FORMA DA PÁGINA INICIAL
+      ====================================================== */}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="absolute -top-px left-0 right-0 pointer-events-none z-10">
+        <svg
+          className="w-full h-[100px] sm:h-[130px] md:h-[160px] block"
+          viewBox="0 0 1440 160"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="footerWaveGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#EAF1F7" stopOpacity="1" />
+              <stop offset="100%" stopColor="#EAF1F7" stopOpacity="0.95" />
+            </linearGradient>
+          </defs>
+
+          {/* Preenchimento da curva — mesma forma da Home, invertida para o topo */}
+          <path
+            d="M0,80 C240,20 480,140 720,100 C960,60 1200,20 1440,80 L1440,0 L0,0 Z"
+            fill="url(#footerWaveGradient)"
+          />
+
+          {/* Linha luminosa por cima da curva */}
+          <path
+            d="M0,80 C240,20 480,140 720,100 C960,60 1200,20 1440,80"
+            fill="none"
+            stroke="#4FB0D9"
+            strokeOpacity="0.5"
+            strokeWidth="1.5"
+          />
+        </svg>
+      </div>
+
+      {/* GLOWS */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#4FB0D9]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#2A7FAA]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-36 md:pt-40">
         <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* LOGO + DESCRIÇÃO */}
           <div>
             <Link href="/" className="relative inline-block w-40 h-12">
               <Image
-                src="/images/logo.png"
+                src="/images/logo_sem_slogan.png"
                 alt="RiseON"
                 fill
                 className="object-contain object-left"
                 sizes="160px"
+                quality={100}
               />
             </Link>
             <p className="mt-3 text-white/60 text-sm leading-relaxed max-w-xs">
@@ -108,19 +143,19 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/servicos/talento" className="text-white/60 hover:text-[#4FB0D9] transition flex items-center gap-1 group">
+                <Link href="/servicos#talento" className="text-white/60 hover:text-[#4FB0D9] transition flex items-center gap-1 group">
                   Talento
                   <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition" />
                 </Link>
               </li>
               <li>
-                <Link href="/servicos/impacto" className="text-white/60 hover:text-[#4FB0D9] transition flex items-center gap-1 group">
+                <Link href="/servicos#impacto" className="text-white/60 hover:text-[#4FB0D9] transition flex items-center gap-1 group">
                   Impacto
                   <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition" />
                 </Link>
               </li>
               <li>
-                <Link href="/servicos/performance" className="text-white/60 hover:text-[#4FB0D9] transition flex items-center gap-1 group">
+                <Link href="/servicos#performance" className="text-white/60 hover:text-[#4FB0D9] transition flex items-center gap-1 group">
                   Performance
                   <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition" />
                 </Link>
@@ -257,53 +292,32 @@ export default function Contactos() {
       <div className="min-h-screen pt-6 pb-16 bg-[#EAF1F7]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* ======================================================
-              HEADER — LOGO GRANDE + NAV
-          ====================================================== */}
-
+          {/* HEADER */}
           <div className="flex items-center justify-between border-b border-[#D6E2EC] pb-6 mb-12">
             <Link
               href="/"
-              className="
-                relative
-                w-56 h-20
-                sm:w-64 sm:h-24
-                md:w-72 md:h-28
-                transition-transform duration-500
-                hover:scale-105
-              "
+              className="relative w-56 h-20 sm:w-64 sm:h-24 md:w-72 md:h-28 transition-transform duration-500 hover:scale-105"
             >
               <Image
-                src="/images/logo.png"
+                src="/images/logo_sem_slogan.png"
                 alt="RiseON"
                 fill
                 className="object-contain object-left"
                 priority
+                quality={100}
                 sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, 288px"
               />
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm">
-              <Link
-                href="/"
-                className="relative transition group"
-                style={{ color: '#0A1628' }}
-              >
+              <Link href="/" className="relative transition group" style={{ color: '#0A1628' }}>
                 Início
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#0a0e3f] group-hover:w-full transition-all duration-300" />
               </Link>
-              <Link
-                href="/servicos"
-                className="relative transition group"
-                style={{ color: '#0A1628' }}
-              >
+              <Link href="/servicos" className="relative transition group" style={{ color: '#0A1628' }}>
                 Serviços
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#0a0e3f] group-hover:w-full transition-all duration-300" />
               </Link>
-              <Link
-                href="/contactos"
-                className="relative transition group font-semibold"
-                style={{ color: '#0A1628' }}
-              >
+              <Link href="/contactos" className="relative transition group font-semibold" style={{ color: '#0A1628' }}>
                 Contactos
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#0a0e3f] group-hover:w-full transition-all duration-300" />
               </Link>
@@ -326,7 +340,6 @@ export default function Contactos() {
 
             {/* INFO */}
             <div className="space-y-6">
-              {/* SEDE */}
               <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
                 <MapPin className="text-[#0a0e3f] flex-shrink-0 mt-1" size={24} />
                 <div>
@@ -347,35 +360,26 @@ export default function Contactos() {
                 </div>
               </div>
 
-              {/* TELEFONE */}
               <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
                 <Phone className="text-[#0a0e3f] flex-shrink-0 mt-1" size={24} />
                 <div>
                   <h4 className="font-semibold text-[#0A1628]">Telefone</h4>
-                  <a
-                    href="tel:+351923330190"
-                    className="text-[#3A5368] text-sm hover:text-[#0a0e3f] transition"
-                  >
+                  <a href="tel:+351923330190" className="text-[#3A5368] text-sm hover:text-[#0a0e3f] transition">
                     +351 923 330 190
                   </a>
                 </div>
               </div>
 
-              {/* EMAIL */}
               <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
                 <Mail className="text-[#0a0e3f] flex-shrink-0 mt-1" size={24} />
                 <div>
                   <h4 className="font-semibold text-[#0A1628]">Email</h4>
-                  <a
-                    href="mailto:geral@riseon.pt"
-                    className="text-[#3A5368] text-sm hover:text-[#0a0e3f] transition"
-                  >
+                  <a href="mailto:geral@riseon.pt" className="text-[#3A5368] text-sm hover:text-[#0a0e3f] transition">
                     geral@riseon.pt
                   </a>
                 </div>
               </div>
 
-              {/* HORÁRIO */}
               <div className="bg-white rounded-xl p-6 shadow-sm border border-[#D6E2EC] flex items-start gap-4 hover:shadow-md transition">
                 <Clock className="text-[#0a0e3f] flex-shrink-0 mt-1" size={24} />
                 <div>
@@ -395,9 +399,7 @@ export default function Contactos() {
               </h3>
               <form className="mt-6 space-y-4">
                 <div>
-                  <label htmlFor="nome" className="block text-sm font-medium text-[#3A5368]">
-                    Nome *
-                  </label>
+                  <label htmlFor="nome" className="block text-sm font-medium text-[#3A5368]">Nome *</label>
                   <input
                     type="text"
                     id="nome"
@@ -407,9 +409,7 @@ export default function Contactos() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-[#3A5368]">
-                    Email *
-                  </label>
+                  <label htmlFor="email" className="block text-sm font-medium text-[#3A5368]">Email *</label>
                   <input
                     type="email"
                     id="email"
@@ -419,9 +419,7 @@ export default function Contactos() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="telefone" className="block text-sm font-medium text-[#3A5368]">
-                    Telefone
-                  </label>
+                  <label htmlFor="telefone" className="block text-sm font-medium text-[#3A5368]">Telefone</label>
                   <input
                     type="tel"
                     id="telefone"
@@ -430,9 +428,7 @@ export default function Contactos() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="mensagem" className="block text-sm font-medium text-[#3A5368]">
-                    Mensagem *
-                  </label>
+                  <label htmlFor="mensagem" className="block text-sm font-medium text-[#3A5368]">Mensagem *</label>
                   <textarea
                     id="mensagem"
                     rows={4}
@@ -443,17 +439,7 @@ export default function Contactos() {
                 </div>
                 <button
                   type="submit"
-                  className="
-                    w-full
-                    py-3.5
-                    rounded-full
-                    font-semibold
-                    text-sm tracking-wide
-                    hover:-translate-y-1
-                    transition-all duration-300
-                    shadow-md
-                    hover:shadow-lg
-                  "
+                  className="w-full py-3.5 rounded-full font-semibold text-sm tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-lg"
                   style={{
                     backgroundColor: '#0a0e3f',
                     color: '#ffffff',
@@ -491,16 +477,7 @@ export default function Contactos() {
                 href={openMaps}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="
-                  absolute bottom-4 right-4
-                  px-4 py-2
-                  rounded-full
-                  text-sm font-semibold
-                  flex items-center gap-2
-                  hover:-translate-y-1
-                  transition-all duration-300
-                  shadow-lg hover:shadow-xl
-                "
+                className="absolute bottom-4 right-4 px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl"
                 style={{
                   backgroundColor: '#0a0e3f',
                   color: '#ffffff',
@@ -514,10 +491,7 @@ export default function Contactos() {
         </div>
       </div>
 
-      {/* ======================================================
-          FOOTER
-      ====================================================== */}
-
+      {/* FOOTER */}
       <Footer />
     </>
   );
