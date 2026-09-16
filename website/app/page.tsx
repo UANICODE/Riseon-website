@@ -15,23 +15,55 @@ export default function Home() {
   // SCROLL UP → REPOR SWIPE
   // ==========================================================
 
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
+useEffect(() => {
+  let cooldown = false;
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+  const handleWheel = (e: WheelEvent) => {
+    // Ignora se ainda está em cooldown (evita disparos múltiplos)
+    if (cooldown) return;
 
-      // Se o utilizador fizer scroll para cima E o menu estiver visível
-      if (currentScrollY < lastScrollY && menuVisible) {
-        setMenuVisible(false);
-      }
+    if (e.deltaY > 5) {
+      // Scroll para BAIXO → mostra menu
+      setMenuVisible(true);
+    } else if (e.deltaY < -5) {
+      // Scroll para CIMA → esconde menu
+      setMenuVisible(false);
+    }
 
-      lastScrollY = currentScrollY;
-    };
+    cooldown = true;
+    setTimeout(() => {
+      cooldown = false;
+    }, 400);
+  };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [menuVisible]);
+  // Touch (mobile)
+  let touchStartY = 0;
+
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStartY = e.touches[0].clientY;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    const touchEndY = e.touches[0].clientY;
+    const delta = touchStartY - touchEndY;
+
+    if (delta > 30) {
+      setMenuVisible(true);
+    } else if (delta < -30) {
+      setMenuVisible(false);
+    }
+  };
+
+  window.addEventListener('wheel', handleWheel, { passive: true });
+  window.addEventListener('touchstart', handleTouchStart, { passive: true });
+  window.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+  return () => {
+    window.removeEventListener('wheel', handleWheel);
+    window.removeEventListener('touchstart', handleTouchStart);
+    window.removeEventListener('touchmove', handleTouchMove);
+  };
+}, []);
 
   return (
     <section
@@ -39,7 +71,7 @@ export default function Home() {
       className="relative min-h-screen h-screen flex items-center justify-center overflow-hidden bg-[#0a0e3f]"
     >
       {/* ======================================================
-          FUNDO — GRADIENTE AZUL ESCURO (desloca para baixo ao abrir)
+          FUNDO — GRADIENTE AZUL ESCURO
       ====================================================== */}
 
       <div
@@ -51,7 +83,6 @@ export default function Home() {
         `}
       />
 
-      {/* Glow central azul */}
       <div
         className={`
           absolute inset-0
@@ -61,10 +92,7 @@ export default function Home() {
         `}
       />
 
-      {/* ======================================================
-          ESTRELAS
-      ====================================================== */}
-
+      {/* ESTRELAS */}
       <div
         className={`
           absolute inset-0 pointer-events-none
@@ -97,10 +125,7 @@ export default function Home() {
         })}
       </div>
 
-      {/* ======================================================
-          CONTEÚDO CENTRAL (logo sobe ao abrir menu)
-      ====================================================== */}
-
+      {/* CONTEÚDO CENTRAL */}
       <div
         className={`
           relative z-10
@@ -110,8 +135,27 @@ export default function Home() {
           ${menuVisible ? '-translate-y-6' : 'translate-y-0'}
         `}
       >
-        {/* LOGO */}
+        {/* ======================================================
+            LOGO — MÁXIMA QUALIDADE
+        ====================================================== */}
+
         <div className="relative flex justify-center items-center w-full">
+          {/* Glow por trás */}
+          <div
+            className="
+              absolute
+              w-[500px] h-[250px]
+              sm:w-[700px] sm:h-[350px]
+              md:w-[900px] md:h-[450px]
+              lg:w-[1100px] lg:h-[550px]
+              xl:w-[1300px] xl:h-[650px]
+              rounded-full
+              bg-[#4FB0D9]/[0.18]
+              blur-[100px]
+              pointer-events-none
+            "
+          />
+
           <div
             className="
               relative
@@ -124,19 +168,31 @@ export default function Home() {
             "
           >
             <Image
-              src="/images/logo.png"
+              src="/images/logo_sem_slogan.png"
               alt="Logotipo RiseON"
               fill
               priority
               quality={100}
+              unoptimized
               sizes="(max-width: 640px) 360px, (max-width: 768px) 500px, (max-width: 1024px) 640px, (max-width: 1280px) 820px, 980px"
-              className="object-contain drop-shadow-[0_0_60px_rgba(79,176,217,0.35)]"
+              className="object-contain"
             />
           </div>
         </div>
 
         {/* ======================================================
-            SWIPE ANIMADO — SEM A MÃO
+            SLOGAN — COLADO AO LOGO
+        ====================================================== */}
+
+<p className="-mt-14 sm:-mt-20 md:-mt-28 lg:-mt-32 xl:-mt-36 text-white text-sm sm:text-base md:text-lg tracking-wide">
+          Ligar o{' '}
+          <span className="text-[#6EC8F0] font-semibold">Talento</span>
+          , Impulsionar o{' '}
+          <span className="text-[#6EC8F0] font-semibold">Crescimento</span>
+        </p>
+
+        {/* ======================================================
+            SWIPE — PRÓXIMO DO SLOGAN
         ====================================================== */}
 
         <button
@@ -144,13 +200,12 @@ export default function Home() {
           aria-label="Deslizar para revelar menu"
           className={`
             relative
-            mt-10 sm:mt-12
+            mt-4 sm:mt-5
             group
             transition-all duration-700
             ${menuVisible ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'}
           `}
         >
-          {/* Cilindro externo */}
           <div
             className="
               relative
@@ -169,10 +224,7 @@ export default function Home() {
               group-hover:shadow-[0_0_30px_rgba(79,176,217,0.5)]
             "
           >
-            {/* Bolinha animada dentro do cilindro */}
             <div className="w-[4px] h-[14px] rounded-full bg-[#4FB0D9] animate-scroll-dot shadow-[0_0_10px_rgba(79,176,217,0.9)]" />
-
-            {/* ❌ MÃO REMOVIDA — era o bloco `animate-hand-tap` */}
           </div>
         </button>
 
@@ -281,11 +333,10 @@ export default function Home() {
       </svg>
 
       {/* ======================================================
-          REDES SOCIAIS — ABAIXO DA LINHA (z-[6])
+          REDES SOCIAIS
       ====================================================== */}
 
-      <div className="absolute bottom-4 right-6 sm:bottom-5 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4">
-        {/* INSTAGRAM */}
+     <div className="absolute bottom-2 right-4 sm:bottom-2 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4">
         <a
           href="https://instagram.com/riseon.pt"
           target="_blank"
@@ -301,7 +352,6 @@ export default function Home() {
           </svg>
         </a>
 
-        {/* LINKEDIN */}
         <a
           href="https://linkedin.com/company/riseon"
           target="_blank"
@@ -315,7 +365,6 @@ export default function Home() {
           </svg>
         </a>
 
-        {/* FACEBOOK */}
         <a
           href="https://facebook.com/riseon.pt"
           target="_blank"

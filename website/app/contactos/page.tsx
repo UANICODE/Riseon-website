@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -10,6 +11,9 @@ import {
   Navigation,
   Globe,
   ArrowUpRight,
+  Loader2,
+  Check,
+  AlertCircle,
 } from 'lucide-react';
 
 // ============================================================
@@ -43,10 +47,7 @@ function Footer() {
 
   return (
     <footer className="bg-[#0A1628] text-white/90 relative overflow-hidden mt-16">
-      {/* ======================================================
-          CURVA SUPERIOR — MESMA FORMA DA PÁGINA INICIAL
-      ====================================================== */}
-
+      {/* CURVA SUPERIOR */}
       <div className="absolute -top-px left-0 right-0 pointer-events-none z-10">
         <svg
           className="w-full h-[100px] sm:h-[130px] md:h-[160px] block"
@@ -59,14 +60,10 @@ function Footer() {
               <stop offset="100%" stopColor="#EAF1F7" stopOpacity="0.95" />
             </linearGradient>
           </defs>
-
-          {/* Preenchimento da curva — mesma forma da Home, invertida para o topo */}
           <path
             d="M0,80 C240,20 480,140 720,100 C960,60 1200,20 1440,80 L1440,0 L0,0 Z"
             fill="url(#footerWaveGradient)"
           />
-
-          {/* Linha luminosa por cima da curva */}
           <path
             d="M0,80 C240,20 480,140 720,100 C960,60 1200,20 1440,80"
             fill="none"
@@ -77,7 +74,6 @@ function Footer() {
         </svg>
       </div>
 
-      {/* GLOWS */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#4FB0D9]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#2A7FAA]/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -287,6 +283,85 @@ export default function Contactos() {
   const mapsUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${latitude},${longitude}&zoom=15&maptype=roadmap`;
   const openMaps = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
 
+  // ==========================================================
+  // FORM STATE
+  // ==========================================================
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const subjectMap: Record<string, string> = {
+      talento: 'Talento — Recrutamento & Seleção',
+      impacto: 'Impacto — Website Institucional',
+      impacto_rs: 'Impacto — Gestão de Redes Sociais',
+      performance: 'Performance — Dashboards & KPIs',
+      geral: 'Contacto Geral',
+      outro: 'Outro assunto',
+    };
+
+    const subjectLabel = subjectMap[formData.subject] || formData.subject;
+
+    try {
+      const payload = new FormData();
+      // ⚠️ SUBSTITUI PELA TUA ACCESS KEY DO WEB3FORMS
+      // Obtém gratuitamente em https://web3forms.com
+      payload.append('access_key', '3b07d96a-f89e-4b6c-89a8-5735991a0402');
+      payload.append('subject', `[RiseON] Novo contacto — ${subjectLabel}`);
+      payload.append('from_name', 'Site RiseON');
+      payload.append('name', formData.name);
+      payload.append('email', formData.email);
+      payload.append('phone', formData.phone || 'Não informado');
+      payload.append('service', subjectLabel);
+      payload.append('message', formData.message || 'Sem mensagem adicional');
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: payload,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+        });
+        setTimeout(() => setSubmitStatus('idle'), 6000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen pt-6 pb-16 bg-[#EAF1F7]">
@@ -397,58 +472,146 @@ export default function Contactos() {
               <h3 className="font-heading text-2xl font-bold text-[#0A1628]">
                 Envie uma mensagem
               </h3>
-              <form className="mt-6 space-y-4">
-                <div>
-                  <label htmlFor="nome" className="block text-sm font-medium text-[#3A5368]">Nome *</label>
-                  <input
-                    type="text"
-                    id="nome"
-                    required
-                    className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628]"
-                    placeholder="O seu nome"
-                  />
+
+              {submitStatus === 'success' ? (
+                /* ESTADO DE SUCESSO */
+                <div className="mt-6 rounded-xl bg-green-50 p-6 text-center border border-green-200">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <Check size={24} />
+                  </div>
+                  <p className="mt-4 text-base font-medium text-green-800">
+                    Mensagem enviada com sucesso!
+                  </p>
+                  <p className="mt-2 text-sm text-green-700">
+                    Entraremos em contacto brevemente.
+                  </p>
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-[#3A5368]">Email *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628]"
-                    placeholder="email@exemplo.com"
-                  />
+              ) : submitStatus === 'error' ? (
+                /* ESTADO DE ERRO */
+                <div className="mt-6 rounded-xl bg-red-50 p-6 text-center border border-red-200">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+                    <AlertCircle size={24} />
+                  </div>
+                  <p className="mt-4 text-base font-medium text-red-800">
+                    Ocorreu um erro
+                  </p>
+                  <p className="mt-2 text-sm text-red-700">
+                    Por favor, tenta novamente.
+                  </p>
+                  <button
+                    onClick={() => setSubmitStatus('idle')}
+                    className="mt-4 text-sm font-medium text-red-600 hover:text-red-800 transition"
+                  >
+                    Tentar novamente
+                  </button>
                 </div>
-                <div>
-                  <label htmlFor="telefone" className="block text-sm font-medium text-[#3A5368]">Telefone</label>
-                  <input
-                    type="tel"
-                    id="telefone"
-                    className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628]"
-                    placeholder="+351 912 345 678"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="mensagem" className="block text-sm font-medium text-[#3A5368]">Mensagem *</label>
-                  <textarea
-                    id="mensagem"
-                    rows={4}
-                    required
-                    className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628] resize-none"
-                    placeholder="Como podemos ajudar?"
-                  ></textarea>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-full font-semibold text-sm tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-lg"
-                  style={{
-                    backgroundColor: '#0a0e3f',
-                    color: '#ffffff',
-                    boxShadow: '0 4px 14px rgba(10, 14, 63, 0.25)',
-                  }}
-                >
-                  Enviar Mensagem
-                </button>
-              </form>
+              ) : (
+                /* FORMULÁRIO */
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-[#3A5368]">
+                      Nome *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628]"
+                      placeholder="O seu nome"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-[#3A5368]">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628]"
+                      placeholder="email@exemplo.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-[#3A5368]">
+                      Telefone
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628]"
+                      placeholder="+351 912 345 678"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium text-[#3A5368]">
+                      Área de Interesse *
+                    </label>
+                    <select
+                      id="subject"
+                      required
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628]"
+                    >
+                      <option value="">Selecione uma área</option>
+                      <option value="talento">Talento — Recrutamento & Seleção</option>
+                      <option value="impacto">Impacto — Website Institucional</option>
+                      <option value="impacto_rs">Impacto — Gestão de Redes Sociais</option>
+                      <option value="performance">Performance — Dashboards & KPIs</option>
+                      <option value="geral">Contacto Geral</option>
+                      <option value="outro">Outro assunto</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-[#3A5368]">
+                      Mensagem *
+                    </label>
+                    <textarea
+                      id="message"
+                      rows={4}
+                      required
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="mt-1 w-full px-4 py-3 border border-[#D6E2EC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a0e3f] focus:border-transparent transition bg-white text-[#0A1628] resize-none"
+                      placeholder="Como podemos ajudar?"
+                    ></textarea>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-3.5 rounded-full font-semibold text-sm tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 inline-flex items-center justify-center gap-2"
+                    style={{
+                      backgroundColor: '#0a0e3f',
+                      color: '#ffffff',
+                      boxShadow: '0 4px 14px rgba(10, 14, 63, 0.25)',
+                    }}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" />
+                        A enviar...
+                      </>
+                    ) : (
+                      <>
+                        Enviar Mensagem
+                        <ArrowUpRight size={18} />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
 
