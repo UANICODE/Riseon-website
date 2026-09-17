@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, forwardRef } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -10,10 +10,7 @@ import {
   Handshake,
   UserCog,
   Star,
-  Calendar,
-  Clock,
   Briefcase,
-  CheckCircle,
   Monitor,
   Wrench,
   Settings,
@@ -27,8 +24,8 @@ import {
 } from 'lucide-react';
 
 export default function Servicos() {
-  // null = tudo visível | 'talento' | 'impacto' | 'performance' = filtro ativo
   const [active, setActive] = useState<string | null>(null);
+  const [openCaracteristica, setOpenCaracteristica] = useState<number | null>(null);
 
   const pilares = [
     {
@@ -67,7 +64,6 @@ export default function Servicos() {
   };
 
   const handleClick = (id: string) => {
-    // Clicar na mesma → volta a mostrar tudo
     if (active === id) {
       setActive(null);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -76,7 +72,6 @@ export default function Servicos() {
 
     setActive(id);
 
-    // Scroll suave até à secção (após render)
     setTimeout(() => {
       const el = refs[id as keyof typeof refs]?.current;
       if (el) {
@@ -125,7 +120,7 @@ export default function Servicos() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* HEADER */}
+        {/* HEADER — COM "SOBRE" */}
         <div className="flex items-center justify-between border-b border-[#4FB0D9]/20 pb-6 mb-12 animate-fade-in-down">
           <Link
             href="/"
@@ -144,6 +139,10 @@ export default function Servicos() {
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <Link href="/" className="relative transition group" style={{ color: '#ffffff' }}>
               Início
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#6EC8F0] group-hover:w-full transition-all duration-300" />
+            </Link>
+            <Link href="/sobre" className="relative transition group" style={{ color: '#ffffff' }}>
+              Sobre
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#6EC8F0] group-hover:w-full transition-all duration-300" />
             </Link>
             <Link href="/servicos" className="relative transition group" style={{ color: '#ffffff' }}>
@@ -193,7 +192,7 @@ export default function Servicos() {
         </div>
 
         {/* ======================================================
-            TALENTO — só aparece quando não há filtro OU filtro = talento
+            TALENTO
         ====================================================== */}
 
         {(!active || active === 'talento') && (
@@ -236,7 +235,7 @@ export default function Servicos() {
                       <div className="w-20 h-20 rounded-full border-2 border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0] transition-all duration-500 group-hover:scale-110 group-hover:border-[#6EC8F0] group-hover:bg-[#6EC8F0]/10 group-hover:shadow-[0_0_30px_rgba(110,200,240,0.4)]">
                         <Icon size={34} strokeWidth={1.5} />
                       </div>
-                      <p className="mt-4 text-[#6EC8F0] text-sm font-medium max-w-[180px]">
+                      <p className="mt-4 text-[#6EC8F0] text-sm font-medium max-w-[180px] transition-all duration-500 group-hover:tracking-wide">
                         {step.title}
                       </p>
                     </div>
@@ -245,14 +244,14 @@ export default function Servicos() {
               </div>
             </div>
 
-            {/* Áreas de Especialização */}
+            {/* Áreas de Especialização — CENTRADAS */}
             <div className="mt-20 animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Áreas de Especialização
                 <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#6EC8F0] to-transparent rounded-full" />
               </h3>
 
-              <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-3xl">
+              <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
                 {[
                   'Administração',
                   'Hotelaria e Restauração',
@@ -270,7 +269,7 @@ export default function Servicos() {
                     <span className="absolute top-1 right-1 w-3 h-3 border-t-2 border-r-2 border-[#6EC8F0]/50 rounded-tr" />
                     <span className="absolute bottom-1 left-1 w-3 h-3 border-b-2 border-l-2 border-[#6EC8F0]/50 rounded-bl" />
                     <span className="absolute bottom-1 right-1 w-3 h-3 border-b-2 border-r-2 border-[#6EC8F0]/50 rounded-br" />
-                    <span className="text-white font-medium text-sm group-hover:text-[#6EC8F0] transition-colors duration-300">
+                    <span className="text-white font-medium text-sm group-hover:text-[#6EC8F0] group-hover:tracking-wide transition-all duration-300">
                       {area}
                     </span>
                   </div>
@@ -281,7 +280,7 @@ export default function Servicos() {
         )}
 
         {/* ======================================================
-            IMPACTO — só aparece quando não há filtro OU filtro = impacto
+            IMPACTO
         ====================================================== */}
 
         {(!active || active === 'impacto') && (
@@ -297,7 +296,7 @@ export default function Servicos() {
               </p>
             </div>
 
-            {/* PARTE 1 — WEBSITE INSTITUCIONAL */}
+            {/* PARTE 1 — WEBSITE */}
             <div className="animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Criação e Manutenção de Website Institucional
@@ -321,7 +320,7 @@ export default function Servicos() {
                   return (
                     <div
                       key={item.title}
-                      className="flex flex-col md:flex-row items-start gap-6 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-[#4FB0D9]/20 hover:border-[#6EC8F0]/50 transition-all duration-500 animate-fade-in-up"
+                      className="flex flex-col md:flex-row items-start gap-6 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-[#4FB0D9]/20 hover:border-[#6EC8F0]/50 transition-all duration-500 animate-fade-in-up group"
                       style={{ animationDelay: `${0.1 + i * 0.1}s` }}
                     >
                       <div className="hidden md:flex flex-shrink-0 items-center text-[#6EC8F0] pt-4">
@@ -337,15 +336,15 @@ export default function Servicos() {
                       </div>
 
                       <div className="flex-1 flex flex-col md:flex-row items-start gap-5">
-                        <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-[#6EC8F0]/10 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0]">
+                        <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-[#6EC8F0]/10 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0] transition-all duration-500 group-hover:scale-110 group-hover:bg-[#6EC8F0] group-hover:text-[#0a0e3f]">
                           <Icon size={32} strokeWidth={1.5} />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-heading text-2xl font-bold text-white mb-2">
+                          <h4 className="font-heading text-2xl font-bold text-white mb-2 transition-all duration-500 group-hover:tracking-wide group-hover:text-[#6EC8F0]">
                             {item.title}
                           </h4>
-                          <div className="bg-[#6EC8F0]/10 border border-[#6EC8F0]/20 rounded-xl p-4">
-                            <p className="text-white/80 text-sm leading-relaxed">
+                          <div className="bg-[#6EC8F0]/10 border border-[#6EC8F0]/20 rounded-xl p-4 transition-all duration-500 group-hover:bg-[#6EC8F0]/20 group-hover:border-[#6EC8F0]/40">
+                            <p className="text-white/80 text-sm leading-relaxed transition-colors duration-500 group-hover:text-white">
                               {item.desc}
                             </p>
                           </div>
@@ -356,55 +355,64 @@ export default function Servicos() {
                 })}
               </div>
 
-              {/* Características do Serviço */}
+              {/* CARACTERÍSTICAS DO SERVIÇO — CLICÁVEIS */}
               <div className="mt-10 bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-[#4FB0D9]/20 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <h4 className="font-heading text-2xl font-bold text-white mb-2 relative inline-block">
                   Características do Serviço
                   <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#6EC8F0] to-transparent rounded-full" />
                 </h4>
 
-                <ul className="mt-10 space-y-4">
+                <p className="text-white/50 text-xs mt-3 italic">
+                  Clique em cada ícone para ver os detalhes
+                </p>
+
+                <ul className="mt-8 space-y-4">
                   {[
                     { icon: Monitor, bold: 'Website Profissional', rest: 'com design moderno, funcional e adaptado à identidade da sua marca' },
                     { icon: Settings, bold: 'Manutenção Contínua', rest: 'com prioridade para atualizações, segurança e suporte técnico' },
                     { icon: TrendingUp, bold: 'Otimizado para Resultados', rest: 'através de uma estrutura pensada para atrair clientes e converter visitas em negócios' },
+                    { icon: Briefcase, bold: 'Valor do projeto sujeito a consulta', rest: 'dependente das características do projeto' },
+                    { icon: Target, bold: 'Orçamentação à medida das necessidades', rest: 'repartido consoante as fases de implementação' },
                   ].map((item, i) => {
                     const Icon = item.icon;
+                    const isOpen = openCaracteristica === i;
                     return (
-                      <li key={i} className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC8F0]/15 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0]">
-                          <Icon size={18} />
-                        </div>
-                        <p className="text-sm text-white/75 leading-relaxed pt-2">
+                      <li key={i} className="flex items-start gap-4 group">
+                        <button
+                          onClick={() => setOpenCaracteristica(isOpen ? null : i)}
+                          aria-label={`Mostrar ${item.bold}`}
+                          className={`
+                            flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center
+                            transition-all duration-500
+                            ${
+                              isOpen
+                                ? 'bg-[#6EC8F0] text-[#0a0e3f] shadow-[0_0_30px_rgba(110,200,240,0.6)] scale-110'
+                                : 'bg-[#6EC8F0]/15 border border-[#6EC8F0]/30 text-[#6EC8F0] hover:bg-[#6EC8F0]/25 hover:scale-105'
+                            }
+                          `}
+                        >
+                          <Icon size={20} />
+                        </button>
+                        <p
+                          className={`
+                            text-sm leading-relaxed pt-3 transition-all duration-500
+                            ${
+                              isOpen
+                                ? 'opacity-100 translate-x-0 text-white/95'
+                                : 'opacity-30 translate-x-2 text-white/60 group-hover:opacity-60'
+                            }
+                          `}
+                        >
                           <strong className="text-[#6EC8F0]">{item.bold}</strong> {item.rest}
                         </p>
                       </li>
                     );
                   })}
                 </ul>
-
-                <div className="mt-8 pt-6 border-t border-white/10 space-y-4">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC8F0]/15 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0]">
-                      <Briefcase size={18} />
-                    </div>
-                    <p className="text-sm text-white/75 leading-relaxed pt-2">
-                      <strong className="text-[#6EC8F0]">Valor do projeto sujeito a consulta</strong>, dependente das características do projeto
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC8F0]/15 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0]">
-                      <Target size={18} />
-                    </div>
-                    <p className="text-sm text-white/75 leading-relaxed pt-2">
-                      <strong className="text-[#6EC8F0]">Orçamentação à medida das necessidades</strong>, repartido consoante as fases de implementação
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
 
-            {/* PARTE 2 — GESTÃO DE REDES SOCIAIS */}
+            {/* PARTE 2 — REDES SOCIAIS */}
             <div className="mt-20 animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Gestão de Redes Sociais Institucionais
@@ -433,7 +441,7 @@ export default function Servicos() {
                   return (
                     <div
                       key={item.title}
-                      className="flex flex-col md:flex-row items-start gap-6 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-[#4FB0D9]/20 hover:border-[#6EC8F0]/50 transition-all duration-500 animate-fade-in-up"
+                      className="flex flex-col md:flex-row items-start gap-6 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-[#4FB0D9]/20 hover:border-[#6EC8F0]/50 transition-all duration-500 animate-fade-in-up group"
                       style={{ animationDelay: `${0.1 + i * 0.1}s` }}
                     >
                       <div className="hidden md:flex flex-shrink-0 items-center text-[#6EC8F0] pt-4">
@@ -449,15 +457,15 @@ export default function Servicos() {
                       </div>
 
                       <div className="flex-1 flex flex-col md:flex-row items-start gap-5">
-                        <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-[#6EC8F0]/10 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0]">
+                        <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-[#6EC8F0]/10 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0] transition-all duration-500 group-hover:scale-110 group-hover:bg-[#6EC8F0] group-hover:text-[#0a0e3f]">
                           <Icon size={32} strokeWidth={1.5} />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-heading text-2xl font-bold text-white mb-2">
+                          <h4 className="font-heading text-2xl font-bold text-white mb-2 transition-all duration-500 group-hover:tracking-wide group-hover:text-[#6EC8F0]">
                             {item.title}
                           </h4>
-                          <div className="bg-[#6EC8F0]/10 border border-[#6EC8F0]/20 rounded-xl p-4">
-                            <p className="text-white/80 text-sm leading-relaxed">
+                          <div className="bg-[#6EC8F0]/10 border border-[#6EC8F0]/20 rounded-xl p-4 transition-all duration-500 group-hover:bg-[#6EC8F0]/20 group-hover:border-[#6EC8F0]/40">
+                            <p className="text-white/80 text-sm leading-relaxed transition-colors duration-500 group-hover:text-white">
                               {item.desc}
                             </p>
                           </div>
@@ -472,7 +480,7 @@ export default function Servicos() {
         )}
 
         {/* ======================================================
-            PERFORMANCE — só aparece quando não há filtro OU filtro = performance
+            PERFORMANCE
         ====================================================== */}
 
         {(!active || active === 'performance') && (
@@ -510,19 +518,19 @@ export default function Servicos() {
                 return (
                   <div
                     key={item.title}
-                    className="flex flex-col md:flex-row items-start gap-6 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-[#4FB0D9]/20 hover:border-[#6EC8F0]/50 transition-all duration-500 animate-fade-in-up"
+                    className="flex flex-col md:flex-row items-start gap-6 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-[#4FB0D9]/20 hover:border-[#6EC8F0]/50 transition-all duration-500 animate-fade-in-up group"
                     style={{ animationDelay: `${0.1 + i * 0.1}s` }}
                   >
                     <div className="flex-1 flex flex-col md:flex-row items-start gap-5">
-                      <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-[#6EC8F0]/10 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0]">
+                      <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-[#6EC8F0]/10 border border-[#6EC8F0]/30 flex items-center justify-center text-[#6EC8F0] transition-all duration-500 group-hover:scale-110 group-hover:bg-[#6EC8F0] group-hover:text-[#0a0e3f]">
                         <Icon size={32} strokeWidth={1.5} />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-heading text-2xl font-bold text-white mb-2">
+                        <h4 className="font-heading text-2xl font-bold text-white mb-2 transition-all duration-500 group-hover:tracking-wide group-hover:text-[#6EC8F0]">
                           {item.title}
                         </h4>
-                        <div className="bg-[#6EC8F0]/10 border border-[#6EC8F0]/20 rounded-xl p-4">
-                          <p className="text-white/80 text-sm leading-relaxed">
+                        <div className="bg-[#6EC8F0]/10 border border-[#6EC8F0]/20 rounded-xl p-4 transition-all duration-500 group-hover:bg-[#6EC8F0]/20 group-hover:border-[#6EC8F0]/40">
+                          <p className="text-white/80 text-sm leading-relaxed transition-colors duration-500 group-hover:text-white">
                             {item.desc}
                           </p>
                         </div>
@@ -535,7 +543,7 @@ export default function Servicos() {
           </div>
         )}
 
-        {/* BOTÃO "VER TUDO" — aparece só quando há filtro ativo */}
+        {/* BOTÃO "VER TUDO" */}
         {active && (
           <div className="mt-16 text-center animate-fade-in-up">
             <button
@@ -575,7 +583,7 @@ export default function Servicos() {
 }
 
 // ============================================================
-// COMPONENTE — BOTÃO EM NUVEM
+// COMPONENTE — BOTÃO EM NUVEM (texto centrado)
 // ============================================================
 
 function CloudButton({
@@ -598,7 +606,7 @@ function CloudButton({
         relative
         w-56 h-56
         sm:w-60 sm:h-60
-        flex flex-col items-center justify-center
+        flex items-center justify-center
         transition-all duration-500
         hover:scale-105
         animate-fade-in-up
@@ -622,6 +630,7 @@ function CloudButton({
         className={`
           relative z-10 font-heading text-2xl font-bold transition-colors duration-500
           whitespace-nowrap
+          translate-y-2
           ${active ? 'text-[#0a0e3f]' : 'text-white/80 group-hover:text-[#6EC8F0]'}
         `}
       >

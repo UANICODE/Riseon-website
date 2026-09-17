@@ -22,7 +22,6 @@ export default function Sobre() {
   };
 
   const scrollTo = (id: string) => {
-    // Se já está ativo, clica de novo para desativar (volta a mostrar tudo)
     if (active === id) {
       setActive(null);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -31,7 +30,6 @@ export default function Sobre() {
 
     setActive(id);
 
-    // Scroll suave até à secção, depois de ela renderizar
     setTimeout(() => {
       const el = refs[id as keyof typeof refs]?.current;
       if (el) {
@@ -132,10 +130,7 @@ export default function Sobre() {
           </p>
         </div>
 
-        {/* ======================================================
-            NAVEGAÇÃO EM NUVENS — MAIORES
-        ====================================================== */}
-
+        {/* NAVEGAÇÃO EM NUVENS */}
         <div className="mt-12 flex flex-col items-center gap-6">
           <div className="flex flex-wrap justify-center gap-6 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
             {sections.slice(0, 2).map((s, i) => (
@@ -162,21 +157,19 @@ export default function Sobre() {
           </div>
         </div>
 
-        {/* ======================================================
-            SECÇÕES SEQUENCIAIS — FILTRADAS
-        ====================================================== */}
-
+        {/* SECÇÕES SEQUENCIAIS — FILTRADAS */}
         <div className="mt-20 space-y-24">
 
           {/* MISSÃO */}
           {(!active || active === 'missao') && (
             <Section ref={refs.missao} id="missao" title="Missão" delay={0.1}>
-              <p className="text-lg text-white/85 leading-relaxed mb-4">
-                <strong className="text-[#6EC8F0]">
+              {/* ANIMAÇÃO LIGEIRA AO PASSAR O CURSOR */}
+              <p className="text-lg text-white/85 leading-relaxed mb-4 group cursor-default">
+                <strong className="text-[#6EC8F0] inline-block transition-all duration-500 group-hover:tracking-wider group-hover:drop-shadow-[0_0_15px_rgba(110,200,240,0.6)]">
                   "Ligar o Talento, Impulsionar o Crescimento"
                 </strong>
               </p>
-              <p className="text-white/70 leading-relaxed">
+              <p className="text-white/70 leading-relaxed transition-all duration-500 hover:text-white/95 cursor-default">
                 Temos como objetivo ser o parceiro estratégico de crescimento para startups e PMEs
                 portuguesas, integrando Talento, Impacto Digital e Performance numa visão coerente,
                 orientada para resultados reais e fundamentada em dados.
@@ -206,7 +199,9 @@ export default function Sobre() {
                       <strong className="text-white group-hover:text-[#6EC8F0] transition-colors duration-300">
                         {v.t}
                       </strong>
-                      <p className="text-sm text-white/60 mt-1">{v.d}</p>
+                      <p className="text-sm text-white/60 mt-1 transition-colors duration-500 group-hover:text-white/85">
+                        {v.d}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -219,51 +214,51 @@ export default function Sobre() {
             <Section ref={refs.pilares} id="pilares" title="Pilares Estratégicos" delay={0.1}>
               <div className="grid sm:grid-cols-3 gap-6">
                 {[
-                {
-                  id: 'talento',
-                  word: (
-                    <>
-                      Talent<span className="text-[#6EC8F0]">⏻</span>
-                    </>
-                  ),
-                  d: 'Recrutamento & Seleção',
-                  c: 'text-white',
-                  bg: 'bg-white/5 border border-white/10',
-                },
-                {
-                  id: 'impacto',
-                  word: (
-                    <>
-                      Impact<span className="text-[#6EC8F0]">⏻</span>
-                    </>
-                  ),
-                  d: 'Gestão de Plataformas Digitais',
-                  c: 'text-[#6EC8F0]',
-                  bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20',
-                },
-                {
-                  id: 'performance',
-                  word: (
-                    <>
-                      Perf<span className="text-[#6EC8F0]">⏻</span>rmance
-                    </>
-                  ),
-                  d: 'Performance Analytics',
-                  c: 'text-[#4FB0D9]',
-                  bg: 'bg-[#4FB0D9]/10 border border-[#4FB0D9]/20',
-                },
-              ].map((p, i) => (
-                <div
-                  key={p.id}
-                  className={`${p.bg} rounded-xl p-6 text-center animate-fade-in-up transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(79,176,217,0.2)] hover:border-[#6EC8F0]/50 flex flex-col items-center`}
-                  style={{ animationDelay: `${0.15 + i * 0.12}s` }}
-                >
-                  <span className={`font-heading text-2xl font-bold ${p.c}`}>
-                    {p.word}
-                  </span>
-                  <p className="text-sm text-white/60 mt-1">{p.d}</p>
-                </div>
-              ))}
+                  {
+                    id: 'talento',
+                    word: (
+                      <>
+                        Talent<span className="text-[#6EC8F0]">⏻</span>
+                      </>
+                    ),
+                    d: 'Recrutamento & Seleção',
+                    c: 'text-[#6EC8F0]',
+                    bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20',
+                  },
+                  {
+                    id: 'impacto',
+                    word: (
+                      <>
+                        Impact<span className="text-[#6EC8F0]">⏻</span>
+                      </>
+                    ),
+                    d: 'Gestão de Plataformas Digitais',
+                    c: 'text-[#6EC8F0]',
+                    bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20',
+                  },
+                  {
+                    id: 'performance',
+                    word: (
+                      <>
+                        Perf<span className="text-[#6EC8F0]">⏻</span>rmance
+                      </>
+                    ),
+                    d: 'Performance Analytics',
+                    c: 'text-[#4FB0D9]',
+                    bg: 'bg-[#4FB0D9]/10 border border-[#4FB0D9]/20',
+                  },
+                ].map((p, i) => (
+                  <div
+                    key={p.id}
+                    className={`${p.bg} rounded-xl p-6 text-center animate-fade-in-up transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(79,176,217,0.2)] hover:border-[#6EC8F0]/50 flex flex-col items-center`}
+                    style={{ animationDelay: `${0.15 + i * 0.12}s` }}
+                  >
+                    <span className={`font-heading text-2xl font-bold ${p.c}`}>
+                      {p.word}
+                    </span>
+                    <p className="text-sm text-white/60 mt-1">{p.d}</p>
+                  </div>
+                ))}
               </div>
             </Section>
           )}
@@ -316,26 +311,24 @@ export default function Sobre() {
             </Section>
           )}
 
-          {/* PROVA SOCIAL — SÓ APARECE QUANDO NADA ESTÁ ATIVO */}
+          {/* PROVA SOCIAL — SÓ QUANDO NADA ESTÁ ATIVO */}
           {!active && (
             <Section id="prova-social" title="Empresas que confiam em nós" delay={0.1}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { name: 'MyMoment', logo: '/images/mymoment.png', website: 'https://mymoment.pt/' },
-                  { name: 'Coolivin', logo: '/images/coolivin.png', website: 'https://coolivin.com/pt' },
+                  { name: 'MyMoment', logo: '/images/mymoment.png', website: 'https://mymoment.pt/', scale: 1.5 },
+                  { name: 'Coolivin', logo: '/images/coolivin.png', website: 'https://coolivin.com/pt', scale: 0.85, offsetY: '20%' },
                   { name: 'Centro Juvenil', logo: '/images/centro-juvenil.png', website: 'https://cjsj.pt/' },
-                  
                   { name: 'MadreMedia', logo: '/images/madre.png', website: 'https://madremedia.pt/' },
                   { name: 'CD Cova Piedade', logo: '/images/clube.png', website: 'https://www.cdcovapiedade.pt/' },
                   { name: 'Mundial Exemplar', logo: '/images/mundo_exemplar.png', website: 'https://mundialexemplarcuidadosnolar.pt/' },
-                
                 ].map((c, i) => (
                   <a
                     key={c.name}
                     href={c.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-white/5 backdrop-blur-md rounded-xl p-5 border border-[#4FB0D9]/20 flex items-center justify-center min-h-[110px] transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_15px_40px_rgba(79,176,217,0.15)] animate-fade-in-up group cursor-pointer"
+                    className="bg-white/5 backdrop-blur-md rounded-xl p-5 border border-[#4FB0D9]/20 flex items-center justify-center min-h-[110px] overflow-hidden transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_15px_40px_rgba(79,176,217,0.15)] animate-fade-in-up group cursor-pointer"
                     style={{ animationDelay: `${0.15 + i * 0.05}s` }}
                   >
                     <div className="relative w-32 h-16 transition-all duration-500 group-hover:scale-110">
@@ -344,6 +337,10 @@ export default function Sobre() {
                         alt={`Logo ${c.name}`}
                         fill
                         className="object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-500"
+                        style={{
+                          transform: `scale(${c.scale ?? 1})`,
+                          objectPosition: `center ${c.offsetY ?? 'center'}`,
+                        }}
                         sizes="(max-width: 768px) 128px, 128px"
                       />
                     </div>
@@ -354,7 +351,7 @@ export default function Sobre() {
           )}
         </div>
 
-        {/* BOTÃO "VER TUDO" — APARECE QUANDO HÁ UM FILTRO ATIVO */}
+        {/* BOTÃO "VER TUDO" */}
         {active && (
           <div className="mt-16 text-center animate-fade-in-up">
             <button
@@ -374,7 +371,7 @@ export default function Sobre() {
 }
 
 // ============================================================
-// COMPONENTE — BOTÃO EM NUVEM (MAIOR)
+// COMPONENTE — BOTÃO EM NUVEM
 // ============================================================
 
 function CloudButton({

@@ -325,7 +325,6 @@ export default function Contactos() {
     try {
       const payload = new FormData();
       // ⚠️ SUBSTITUI PELA TUA ACCESS KEY DO WEB3FORMS
-      // Obtém gratuitamente em https://web3forms.com
       payload.append('access_key', '3b07d96a-f89e-4b6c-89a8-5735991a0402');
       payload.append('subject', `[RiseON] Novo contacto — ${subjectLabel}`);
       payload.append('from_name', 'Site RiseON');
@@ -367,7 +366,7 @@ export default function Contactos() {
       <div className="min-h-screen pt-6 pb-16 bg-[#EAF1F7]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* HEADER */}
+          {/* HEADER — COM "SOBRE" */}
           <div className="flex items-center justify-between border-b border-[#D6E2EC] pb-6 mb-12">
             <Link
               href="/"
@@ -386,6 +385,10 @@ export default function Contactos() {
             <nav className="hidden md:flex items-center gap-6 text-sm">
               <Link href="/" className="relative transition group" style={{ color: '#0A1628' }}>
                 Início
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#0a0e3f] group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link href="/sobre" className="relative transition group" style={{ color: '#0A1628' }}>
+                Sobre
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#0a0e3f] group-hover:w-full transition-all duration-300" />
               </Link>
               <Link href="/servicos" className="relative transition group" style={{ color: '#0A1628' }}>
@@ -474,7 +477,6 @@ export default function Contactos() {
               </h3>
 
               {submitStatus === 'success' ? (
-                /* ESTADO DE SUCESSO */
                 <div className="mt-6 rounded-xl bg-green-50 p-6 text-center border border-green-200">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
                     <Check size={24} />
@@ -487,7 +489,6 @@ export default function Contactos() {
                   </p>
                 </div>
               ) : submitStatus === 'error' ? (
-                /* ESTADO DE ERRO */
                 <div className="mt-6 rounded-xl bg-red-50 p-6 text-center border border-red-200">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
                     <AlertCircle size={24} />
@@ -506,7 +507,6 @@ export default function Contactos() {
                   </button>
                 </div>
               ) : (
-                /* FORMULÁRIO */
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-[#3A5368]">

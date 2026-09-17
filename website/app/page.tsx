@@ -12,68 +12,61 @@ export default function Home() {
   };
 
   // ==========================================================
-  // SCROLL UP → REPOR SWIPE
+  // SCROLL DOWN/UP → MOSTRA/ESCONDE MENU
   // ==========================================================
 
-useEffect(() => {
-  let cooldown = false;
+  useEffect(() => {
+    let cooldown = false;
 
-  const handleWheel = (e: WheelEvent) => {
-    // Ignora se ainda está em cooldown (evita disparos múltiplos)
-    if (cooldown) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (cooldown) return;
 
-    if (e.deltaY > 5) {
-      // Scroll para BAIXO → mostra menu
-      setMenuVisible(true);
-    } else if (e.deltaY < -5) {
-      // Scroll para CIMA → esconde menu
-      setMenuVisible(false);
-    }
+      if (e.deltaY > 5) {
+        setMenuVisible(true);
+      } else if (e.deltaY < -5) {
+        setMenuVisible(false);
+      }
 
-    cooldown = true;
-    setTimeout(() => {
-      cooldown = false;
-    }, 400);
-  };
+      cooldown = true;
+      setTimeout(() => {
+        cooldown = false;
+      }, 400);
+    };
 
-  // Touch (mobile)
-  let touchStartY = 0;
+    let touchStartY = 0;
 
-  const handleTouchStart = (e: TouchEvent) => {
-    touchStartY = e.touches[0].clientY;
-  };
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
 
-  const handleTouchMove = (e: TouchEvent) => {
-    const touchEndY = e.touches[0].clientY;
-    const delta = touchStartY - touchEndY;
+    const handleTouchMove = (e: TouchEvent) => {
+      const touchEndY = e.touches[0].clientY;
+      const delta = touchStartY - touchEndY;
 
-    if (delta > 30) {
-      setMenuVisible(true);
-    } else if (delta < -30) {
-      setMenuVisible(false);
-    }
-  };
+      if (delta > 30) {
+        setMenuVisible(true);
+      } else if (delta < -30) {
+        setMenuVisible(false);
+      }
+    };
 
-  window.addEventListener('wheel', handleWheel, { passive: true });
-  window.addEventListener('touchstart', handleTouchStart, { passive: true });
-  window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
-  return () => {
-    window.removeEventListener('wheel', handleWheel);
-    window.removeEventListener('touchstart', handleTouchStart);
-    window.removeEventListener('touchmove', handleTouchMove);
-  };
-}, []);
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
 
   return (
     <section
       id="hero"
       className="relative min-h-screen h-screen flex items-center justify-center overflow-hidden bg-[#0a0e3f]"
     >
-      {/* ======================================================
-          FUNDO — GRADIENTE AZUL ESCURO
-      ====================================================== */}
-
+      {/* FUNDO — GRADIENTE */}
       <div
         className={`
           absolute inset-0
@@ -135,10 +128,7 @@ useEffect(() => {
           ${menuVisible ? '-translate-y-6' : 'translate-y-0'}
         `}
       >
-        {/* ======================================================
-            LOGO — MÁXIMA QUALIDADE
-        ====================================================== */}
-
+        {/* LOGO — MÁXIMA QUALIDADE + CONTRASTE */}
         <div className="relative flex justify-center items-center w-full">
           {/* Glow por trás */}
           <div
@@ -150,7 +140,7 @@ useEffect(() => {
               lg:w-[1100px] lg:h-[550px]
               xl:w-[1300px] xl:h-[650px]
               rounded-full
-              bg-[#4FB0D9]/[0.18]
+              bg-[#4FB0D9]/[0.22]
               blur-[100px]
               pointer-events-none
             "
@@ -176,25 +166,23 @@ useEffect(() => {
               unoptimized
               sizes="(max-width: 640px) 360px, (max-width: 768px) 500px, (max-width: 1024px) 640px, (max-width: 1280px) 820px, 980px"
               className="object-contain"
+              style={{
+                filter:
+                  'brightness(1.15) contrast(1.1) drop-shadow(0 4px 30px rgba(79,176,217,0.5))',
+              }}
             />
           </div>
         </div>
 
-        {/* ======================================================
-            SLOGAN — COLADO AO LOGO
-        ====================================================== */}
-
-<p className="-mt-14 sm:-mt-20 md:-mt-28 lg:-mt-32 xl:-mt-36 text-white text-sm sm:text-base md:text-lg tracking-wide">
+        {/* SLOGAN */}
+        <p className="-mt-14 sm:-mt-20 md:-mt-28 lg:-mt-32 xl:-mt-36 text-white text-sm sm:text-base md:text-lg tracking-wide">
           Ligar o{' '}
           <span className="text-[#6EC8F0] font-semibold">Talento</span>
           , Impulsionar o{' '}
           <span className="text-[#6EC8F0] font-semibold">Crescimento</span>
         </p>
 
-        {/* ======================================================
-            SWIPE — PRÓXIMO DO SLOGAN
-        ====================================================== */}
-
+        {/* SWIPE */}
         <button
           onClick={handleSwipe}
           aria-label="Deslizar para revelar menu"
@@ -228,10 +216,7 @@ useEffect(() => {
           </div>
         </button>
 
-        {/* ======================================================
-            3 BOTÕES — APARECEM SÓ DEPOIS DO SWIPE
-        ====================================================== */}
-
+        {/* 3 BOTÕES */}
         <nav
           className={`
             mt-8 sm:mt-10
@@ -304,12 +289,9 @@ useEffect(() => {
         </nav>
       </div>
 
-      {/* ======================================================
-          CURVA DE BAIXO — FIXA
-      ====================================================== */}
-
+      {/* CURVA DE BAIXO — MAIS BAIXA E ESTENDIDA */}
       <svg
-        className="absolute bottom-0 left-0 w-full h-[100px] sm:h-[130px] md:h-[160px] pointer-events-none z-[5]"
+        className="absolute -bottom-3 left-0 w-full h-[140px] sm:h-[170px] md:h-[200px] pointer-events-none z-[5]"
         viewBox="0 0 1440 160"
         preserveAspectRatio="none"
       >
@@ -332,11 +314,8 @@ useEffect(() => {
         />
       </svg>
 
-      {/* ======================================================
-          REDES SOCIAIS
-      ====================================================== */}
-
-     <div className="absolute bottom-2 right-4 sm:bottom-2 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4">
+      {/* REDES SOCIAIS — MAIS ESPAÇADAS DA CURVA */}
+    <div className="absolute bottom-2 right-4 sm:bottom--5 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4">
         <a
           href="https://instagram.com/riseon.pt"
           target="_blank"
