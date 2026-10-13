@@ -41,7 +41,7 @@ RUN pnpm build
 # ─── Stage 3: Runtime ─────────────────────────────────────
 FROM node:20-alpine AS runtime
 
-RUN apk add --no-cache libc6-compat curl
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
@@ -55,7 +55,7 @@ RUN addgroup --system --gid 1001 nodejs && \
 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
 
 # ─── FIX: @swc/helpers via pnpm virtual store ─────────────
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.pnpm/@swc+helpers@*/node_modules/@swc ./node_modules/@swc
@@ -63,8 +63,5 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.pnpm/@swc+helpers@*
 USER nextjs
 
 EXPOSE 3001
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
-    CMD curl -f http://localhost:3001/ || exit 1
 
 CMD ["node", "server.js"]
