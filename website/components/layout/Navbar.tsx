@@ -1,10 +1,17 @@
 'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+
+const NAV_ITEMS = [
+  { label: 'Sobre', href: '/sobre' },
+  { label: 'Serviços', href: '/servicos' },
+  { label: 'Equipa', href: '/equipa' },
+  { label: 'Contactos', href: '/contactos' },
+];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -12,56 +19,52 @@ export default function Navbar() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const pathname = usePathname();
 
-  // Navegação da RiseON
-  const navigation = [
-    { label: "Sobre", href: "/sobre" },
-    { label: "Serviços", href: "/servicos" },
-    { label: "Equipa", href: "/equipa" }, 
-    { label: "Contactos", href: "/contactos" },
-  ];
+  const navigation = NAV_ITEMS;
+  const isHomePage = pathname === '/';
+
+  // ----------------------------------------------------------
+  // Se estiver na Home, o Navbar NÃO aparece
+  // (a Home tem o seu próprio menu swipe-up / scroll)
+  // ----------------------------------------------------------
+  if (isHomePage) return null;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
+  // Bloquear scroll do body quando o menu mobile está aberto
+  useEffect(() => {
+    if (open) document.body.classList.add('menu-open');
+    else document.body.classList.remove('menu-open');
+    return () => document.body.classList.remove('menu-open');
+  }, [open]);
+
   const isActive = (href: string) => {
-    if (href === "/") return pathname === href;
+    if (href === '/') return pathname === href;
     return pathname.startsWith(href);
   };
 
-  // Verificar se está na home page
-  const isHomePage = pathname === "/";
-
-  // Determinar o fundo do navbar
   const getNavbarBg = () => {
-    // Se estiver na home e não tiver scroll e menu fechado → transparente com gradiente
-    if (isHomePage && !scrolled && !open) {
-      return "bg-gradient-to-b from-riseon-navy/80 via-riseon-navy/40 to-transparent backdrop-blur-sm";
-    }
-    // Em qualquer outro caso → fundo escuro sólido
-    return "bg-riseon-navy/95 backdrop-blur-xl shadow-lg shadow-riseon-navy/20 border-b border-white/5";
+    // Como já não é Home aqui, navbar é sempre escuro
+    return 'bg-riseon-navy/95 backdrop-blur-xl shadow-lg shadow-riseon-navy/20 border-b border-white/5';
   };
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${getNavbarBg()}`}
-    >
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${getNavbarBg()}`}>
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 md:py-4 lg:px-8">
-        {/* Logo - com imagem */}
+        {/* LOGO */}
         <Link
           href="/"
           className="group relative flex-shrink-0 transition-transform duration-300 hover:scale-105"
+          onClick={() => setOpen(false)}
         >
-          <div className="relative h-18 w-56 sm:h-12 sm:w-40 md:h-14 md:w-44">
+          <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-16 md:w-48">
             <Image
               src="/images/logo.png"
               alt="RiseON - Ligar o Talento, Impulsionar o Crescimento"
@@ -73,7 +76,7 @@ export default function Navbar() {
           <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-gold transition-all duration-500 group-hover:w-full" />
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* DESKTOP — TODOS OS LINKS SEMPRE VISÍVEIS */}
         <div className="hidden lg:flex lg:items-center lg:gap-1 xl:gap-2">
           {navigation.map((item, index) => {
             const active = isActive(item.href);
@@ -90,30 +93,27 @@ export default function Navbar() {
                 <span
                   className={`relative text-sm font-medium transition-all duration-300 ${
                     active
-                      ? "text-gold"
+                      ? 'text-gold'
                       : isHovered
-                      ? "text-gold-light"
-                      : "text-white/80"
+                      ? 'text-gold-light'
+                      : 'text-white/80'
                   }`}
                 >
                   {item.label}
                 </span>
 
-                {/* Linha de baixo */}
                 <span
                   className={`absolute bottom-0 left-0 h-0.5 bg-gold transition-all duration-500 ${
-                    active || isHovered ? "w-full" : "w-0"
+                    active || isHovered ? 'w-full' : 'w-0'
                   }`}
                 />
 
-                {/* Fundo hover */}
                 <span
                   className={`absolute inset-0 rounded-lg bg-gold/5 transition-opacity duration-300 ${
-                    isHovered ? "opacity-100" : "opacity-0"
+                    isHovered ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
 
-                {/* Indicador ativo */}
                 {active && (
                   <span className="absolute -top-1 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-gold shadow-lg shadow-gold/50" />
                 )}
@@ -128,7 +128,7 @@ export default function Navbar() {
           >
             <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <span className="relative z-10 flex items-center gap-2">
-          Agendar Reunião
+              Agendar Reunião
               <ArrowUpRight
                 size={16}
                 className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -138,40 +138,39 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Controls */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <button
-            onClick={() => setOpen(!open)}
-            className="relative z-20 p-1 text-white hover:text-gold transition-colors"
-            aria-label="Menu"
-          >
-            <div className="relative h-6 w-6">
-              <span
-                className={`absolute inset-0 transition-transform duration-300 ${
-                  open ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-                }`}
-              >
-                <Menu className="h-6 w-6" />
-              </span>
-              <span
-                className={`absolute inset-0 transition-transform duration-300 ${
-                  open ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-                }`}
-              >
-                <X className="h-6 w-6" />
-              </span>
-            </div>
-          </button>
-        </div>
+        {/* MOBILE BUTTON — HAMBÚRGUER */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="relative z-50 p-2 text-white hover:text-gold transition-colors lg:hidden"
+          aria-label="Abrir menu"
+          aria-expanded={open}
+        >
+          <div className="relative h-7 w-7">
+            <span
+              className={`absolute inset-0 transition-transform duration-300 ${
+                open ? 'rotate-90 opacity-0' : 'rotate-0 opacity-100'
+              }`}
+            >
+              <Menu className="h-7 w-7" />
+            </span>
+            <span
+              className={`absolute inset-0 transition-transform duration-300 ${
+                open ? 'rotate-0 opacity-100' : '-rotate-90 opacity-0'
+              }`}
+            >
+              <X className="h-7 w-7" />
+            </span>
+          </div>
+        </button>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       {open && (
-        <div className="fixed inset-x-0 top-[72px] z-40 h-[calc(100vh-72px)] overflow-y-auto bg-riseon-navy/98 backdrop-blur-xl lg:hidden">
+        <div className="fixed inset-x-0 top-[72px] z-40 h-[calc(100vh-72px)] overflow-y-auto bg-riseon-navy/98 backdrop-blur-xl lg:hidden animate-slideDown">
           <div className="flex flex-col space-y-1 px-4 py-6 sm:px-6">
             {/* Logo no menu mobile */}
             <div className="mb-4 flex justify-center border-b border-white/10 pb-4">
-              <div className="relative h-10 w-32">
+              <div className="relative h-12 w-40">
                 <Image
                   src="/images/riseon-logo-white.png"
                   alt="RiseON"
@@ -181,7 +180,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            {navigation.map((item) => {
+            {navigation.map((item, index) => {
               const active = isActive(item.href);
 
               return (
@@ -190,9 +189,10 @@ export default function Navbar() {
                   href={item.href}
                   className={`group relative flex items-center justify-between rounded-lg px-4 py-4 transition-all duration-300 ${
                     active
-                      ? "bg-gold/10 text-gold"
-                      : "text-white/80 hover:bg-white/5 hover:text-white"
+                      ? 'bg-gold/10 text-gold'
+                      : 'text-white/80 hover:bg-white/5 hover:text-white'
                   }`}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                   onClick={() => setOpen(false)}
                 >
                   <span className="text-base font-medium sm:text-lg">
@@ -205,7 +205,7 @@ export default function Navbar() {
 
                   <span
                     className={`absolute left-0 top-1/2 h-8 w-0.5 -translate-y-1/2 bg-gold transition-all duration-300 ${
-                      active ? "opacity-100" : "opacity-0"
+                      active ? 'opacity-100' : 'opacity-0'
                     }`}
                   />
                 </Link>
@@ -219,7 +219,7 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
               >
                 <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <span className="relative z-10">Falar com Especialista</span>
+                <span className="relative z-10">Agendar Reunião</span>
                 <ArrowUpRight
                   size={18}
                   className="relative z-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -252,13 +252,6 @@ export default function Navbar() {
           </div>
         </div>
       )}
-
-      {/* Linha decorativa */}
-      <div
-        className={`h-px w-full bg-gradient-to-r from-transparent via-gold/20 to-transparent transition-opacity duration-500 ${
-          scrolled || !isHomePage ? "opacity-100" : "opacity-0"
-        }`}
-      />
     </header>
   );
 }

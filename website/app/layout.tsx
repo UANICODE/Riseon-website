@@ -31,10 +31,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/images/favicon.ico' },
-      { url: '/images/logo_sem_slogan.png', type: 'image/png' },
+      { url: '/images/favicon.jpeg', type: 'image/png' },
     ],
-    apple: '/images/logo_sem_slogan.png',
-    shortcut: '/images/logo_sem_slogan.png',
+    apple: '/images/favicon.jpeg',
+    shortcut: '/images/favicon.jpeg',
   },
 };
 

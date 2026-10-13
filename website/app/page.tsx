@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen h-screen flex items-center justify-center overflow-hidden bg-[#0a0e3f]"
+      className="relative min-h-screen h-screen flex items-center justify-center overflow-hidden bg-[#0a0e3f] pb-32 sm:pb-40 md:pb-48"
     >
       {/* FUNDO — GRADIENTE */}
       <div
@@ -314,8 +314,8 @@ export default function Home() {
         />
       </svg>
 
-      {/* REDES SOCIAIS — MAIS ESPAÇADAS DA CURVA */}
-    <div className="absolute bottom-2 right-4 sm:bottom--5 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4">
+      {/* REDES SOCIAIS — MAIS PARA BAIXO */}
+      <div className="absolute bottom-0 sm:bottom-1 right-4 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4 translate-y-4">
         <a
           href="https://instagram.com/riseon.pt"
           target="_blank"
