@@ -1,6 +1,5 @@
 # ─────────────────────────────────────────────────────────
 # RiseON Website — Next.js
-# Multi-stage build com output standalone
 # ─────────────────────────────────────────────────────────
 
 # ─── Stage 1: Dependencies ────────────────────────────────
@@ -56,9 +55,7 @@ RUN addgroup --system --gid 1001 nodejs && \
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# ─── FIX: @swc/helpers via pnpm virtual store ─────────────
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.pnpm/@swc+helpers@*/node_modules/@swc ./node_modules/@swc
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 
 USER nextjs
 
