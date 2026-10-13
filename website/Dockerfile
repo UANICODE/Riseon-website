@@ -55,7 +55,7 @@ RUN addgroup --system --gid 1001 nodejs && \
 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # ─── FIX: @swc/helpers via pnpm virtual store ─────────────
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.pnpm/@swc+helpers@*/node_modules/@swc ./node_modules/@swc
