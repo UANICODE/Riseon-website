@@ -30,7 +30,6 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build args (se precisares de NEXT_PUBLIC_*)
 ARG NEXT_PUBLIC_API_URL
 ARG NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
@@ -58,8 +57,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# ─── FIX: incluir @swc/helpers no runtime ─────────────────
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@swc/helpers ./node_modules/@swc/helpers
+# ─── FIX: @swc/helpers via pnpm virtual store ─────────────
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.pnpm/@swc+helpers@*/node_modules/@swc ./node_modules/@swc
 
 USER nextjs
 
