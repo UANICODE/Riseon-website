@@ -49,6 +49,7 @@ export default function Servicos() {
     {
       id: 'talento',
       label: 'Talento',
+      textOffset: 'translate-x-6 translate-y-0',
       word: (
         <>
           Talent<span className="text-[#6EC8F0]">⏻</span>
@@ -58,6 +59,7 @@ export default function Servicos() {
     {
       id: 'impacto',
       label: 'Impacto',
+      textOffset: 'translate-x-6 translate-y-0',
       word: (
         <>
           Impact<span className="text-[#6EC8F0]">⏻</span>
@@ -67,6 +69,7 @@ export default function Servicos() {
     {
       id: 'performance',
       label: 'Performance',
+      textOffset: 'translate-x-6 translate-y-0',
       word: (
         <>
           Perf<span className="text-[#6EC8F0]">⏻</span>rmance
@@ -161,7 +164,6 @@ export default function Servicos() {
             />
           </Link>
 
-          {/* Menu desktop — todos os links sempre visíveis */}
           <nav className="hidden md:flex items-center gap-6 text-sm">
             {navItems.map((item) => (
               <Link
@@ -176,7 +178,6 @@ export default function Servicos() {
             ))}
           </nav>
 
-          {/* Botão hambúrguer mobile */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden relative z-50 p-2 text-white hover:text-[#6EC8F0] transition-colors"
@@ -186,7 +187,6 @@ export default function Servicos() {
           </button>
         </div>
 
-        {/* Menu mobile */}
         {mobileMenuOpen && (
           <div className="md:hidden mb-8 bg-white/5 backdrop-blur-md border border-[#4FB0D9]/20 rounded-2xl p-4">
             <nav className="flex flex-col">
@@ -204,19 +204,17 @@ export default function Servicos() {
           </div>
         )}
 
-        {/* TÍTULO */}
         <div className="text-center animate-fade-in-up">
           <h1 className="font-heading text-4xl md:text-5xl font-bold text-white">Serviços</h1>
         </div>
 
-        {/* INTRODUÇÃO */}
         <div className="mt-8 max-w-3xl mx-auto text-center animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
           <p className="text-white/75 leading-relaxed text-base md:text-lg">
-            A RiseON integra <strong className="text-[#6EC8F0]">três pilares estratégicos</strong> que, em
+            A RiseON integratrês pilares estratégicos que, em
             conjunto, impulsionam o crescimento sustentado da sua empresa: recrutamos o{' '}
-            <strong className="text-white">talento certo</strong>, fortalecemos a sua{' '}
-            <strong className="text-white">presença digital</strong> e transformamos{' '}
-            <strong className="text-white">dados em decisões</strong>. Uma abordagem consultiva, rigorosa
+           talento certo, fortalecemos a sua{' '}
+          presença digital e transformamos{' '}
+           dados em decisões. Uma abordagem consultiva, rigorosa
             e orientada a resultados.
           </p>
         </div>
@@ -229,6 +227,7 @@ export default function Servicos() {
                 key={p.id}
                 label={p.label}
                 word={p.word}
+                textOffset={p.textOffset}
                 active={active === p.id}
                 delay={i * 0.12}
                 onClick={() => handleClick(p.id)}
@@ -253,7 +252,6 @@ export default function Servicos() {
               </p>
             </div>
 
-            {/* Processo de Seleção */}
             <div className="animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Processo de Seleção
@@ -284,7 +282,6 @@ export default function Servicos() {
               </div>
             </div>
 
-            {/* Áreas de Especialização */}
             <div className="mt-20 animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Áreas de Especialização
@@ -310,7 +307,6 @@ export default function Servicos() {
               </div>
             </div>
 
-            {/* TIPOLOGIA DO SERVIÇO */}
             <div className="mt-20 animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Tipologia do Serviço
@@ -323,20 +319,17 @@ export default function Servicos() {
                     id: 'curriculares',
                     icon: GraduationCap,
                     title: 'Estágios Curriculares',
-                    short: 'Projeto de curso · €120 (short) / €140 (mid)',
                     content: {
                       desc: 'Tipologia de estágio desenhada para a realização de projetos de curso, permitindo a aplicação prática dos conhecimentos teóricos adquiridos durante a formação.',
                       bullets: ['Curta duração: 6 a 12 semanas', 'Média duração: 3 a 9 meses', '20 a 25 horas semanais'],
                       extraTitle: 'Alocação de talento:',
                       extra: 'Candidatos do ensino profissional (Nível IV) e graus académicos superiores (Níveis V, VI, VII).',
-                      tags: ['Short: €120', 'Mid: €140'],
                     },
                   },
                   {
                     id: 'extracurriculares',
                     icon: Clock,
                     title: 'Estágios Extracurriculares',
-                    short: 'Imersão full-time · €170 (mid) / €200 (long)',
                     content: {
                       desc: 'Modelo de imersão direcionado para acelerar a curva de aprendizagem e a integração cultural, privilegiando a produtividade, com carga horária entre 35 e 40 horas semanais.',
                       bullets: ['Média duração: 3 a 9 meses', 'Longa duração: 9 a 12 meses', 'Período experimental estendido'],
@@ -349,7 +342,6 @@ export default function Servicos() {
                     id: 'seniores',
                     icon: BadgeCheck,
                     title: 'Perfis Seniores',
-                    short: 'Talento experiente · €260 (long)',
                     content: {
                       desc: 'Recrutamento e seleção de perfis que trazem uma visão analítica superior e capacidade de resolução de problemas complexos. Possuem a maturidade necessária para liderar projetos internos e aplicar metodologias atualizadas que elevam o padrão de entrega da organização.',
                       bullets: ['Imersão total, menos supervisão', 'Resultados tangíveis no curto e médio prazo', 'Longa duração: até 12 meses'],
@@ -374,7 +366,6 @@ export default function Servicos() {
                           <h4 className="font-heading text-xl md:text-2xl font-bold text-white group-hover:text-[#6EC8F0] transition-colors duration-300">
                             {item.title}
                           </h4>
-                          <p className="text-white/60 text-sm mt-1">{item.short}</p>
                         </div>
                         <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center border transition-all duration-500 ${isOpen ? 'bg-[#6EC8F0] border-[#6EC8F0] text-[#0a0e3f] rotate-90' : 'border-[#6EC8F0]/40 text-[#6EC8F0]'}`}>
                           <ArrowRight size={18} />
@@ -397,9 +388,6 @@ export default function Servicos() {
                             <p className="text-white/70 text-sm mt-1">{item.content.extra}</p>
                           </div>
                           <div className="mt-4 flex flex-wrap gap-2">
-                            {item.content.tags.map((t) => (
-                              <span key={t} className="bg-[#6EC8F0]/15 border border-[#6EC8F0]/30 text-[#6EC8F0] px-3 py-1 rounded-full text-xs font-medium">{t}</span>
-                            ))}
                           </div>
                         </div>
                       </div>
@@ -470,7 +458,6 @@ export default function Servicos() {
               </button>
             </div>
 
-            {/* WEBSITE — DETALHE */}
             {openImpacto === 'website' && (
               <div className="mt-12 space-y-6 animate-fade-in-up">
                 {[
@@ -500,7 +487,8 @@ export default function Servicos() {
                   );
                 })}
 
-                <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-[#4FB0D9]/20">
+                {/* ⬇️ AQUI — margin-top extra para separar das cards acima */}
+                <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-[#4FB0D9]/20 mt-16">
                   <h4 className="font-heading text-2xl font-bold text-white mb-6 relative inline-block">
                     Características do Serviço
                     <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#6EC8F0] to-transparent rounded-full" />
@@ -534,7 +522,6 @@ export default function Servicos() {
               </div>
             )}
 
-            {/* REDES — DETALHE */}
             {openImpacto === 'redes' && (
               <div className="mt-12 space-y-6 animate-fade-in-up">
                 {[
@@ -566,7 +553,8 @@ export default function Servicos() {
                   );
                 })}
 
-                <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-[#4FB0D9]/20">
+                {/* ⬇️ AQUI — margin-top extra para separar das cards acima */}
+                <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-[#4FB0D9]/20 mt-16">
                   <h4 className="font-heading text-2xl font-bold text-white mb-6 relative inline-block">
                     Características do Serviço
                     <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#6EC8F0] to-transparent rounded-full" />
@@ -643,7 +631,6 @@ export default function Servicos() {
               })}
             </div>
 
-            {/* VANTAGENS COMPETITIVAS */}
             <div className="mt-20 animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Vantagens Competitivas
@@ -680,7 +667,6 @@ export default function Servicos() {
               </div>
             </div>
 
-            {/* CARACTERÍSTICAS DO SERVIÇO */}
             <div className="mt-20 animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Características do Serviço
@@ -711,7 +697,6 @@ export default function Servicos() {
               </div>
             </div>
 
-            {/* VALOR DO SERVIÇO */}
             <div className="mt-20 animate-fade-in-up">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2 relative inline-block">
                 Valor do Serviço
@@ -744,15 +729,14 @@ export default function Servicos() {
 
             <div className="mt-12 bg-white/5 backdrop-blur-md rounded-xl p-6 border border-[#4FB0D9]/20 text-center">
               <p className="text-white/70 text-sm italic leading-relaxed">
-                “Desenvolvemos dashboards que transformam dados complexos em informação clara, visual e
+                Desenvolvemos dashboards que transformam dados complexos em informação clara, visual e
                 acionável, colocando o poder da análise nas mãos de quem lidera, sem necessidade de
-                conhecimentos técnicos.”
+                conhecimentos técnicos.
               </p>
             </div>
           </div>
         )}
 
-        {/* BOTÃO VER TUDO */}
         {active && (
           <div className="mt-16 text-center animate-fade-in-up">
             <button
@@ -769,7 +753,6 @@ export default function Servicos() {
           </div>
         )}
 
-        {/* CTA FINAL */}
         {!active && (
           <div className="mt-24 bg-white/5 backdrop-blur-md rounded-2xl p-10 text-center relative overflow-hidden border border-[#4FB0D9]/20 animate-fade-in-up">
             <div className="absolute inset-0 bg-gradient-to-r from-[#6EC8F0]/5 via-transparent to-[#6EC8F0]/5 pointer-events-none" />
@@ -794,18 +777,20 @@ export default function Servicos() {
 }
 
 // ============================================================
-// COMPONENTE — BOTÃO EM NUVEM
+// COMPONENTE — BOTÃO EM NUVEM (com textOffset)
 // ============================================================
 
 function CloudButton({
   label,
   word,
+  textOffset = '',
   active,
   onClick,
   delay = 0,
 }: {
   label: string;
   word: React.ReactNode;
+  textOffset?: string;
   active: boolean;
   onClick: () => void;
   delay?: number;
@@ -841,7 +826,7 @@ function CloudButton({
         className={`
           relative z-10 font-heading text-2xl font-bold transition-colors duration-500
           whitespace-nowrap
-          translate-y-2
+          ${textOffset}
           ${active ? 'text-[#0a0e3f]' : 'text-white/80 group-hover:text-[#6EC8F0]'}
         `}
       >

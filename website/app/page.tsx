@@ -66,11 +66,11 @@ export default function Home() {
       id="hero"
       className="relative min-h-screen h-screen flex items-center justify-center overflow-hidden bg-[#0a0e3f] pb-32 sm:pb-40 md:pb-48"
     >
-      {/* FUNDO — GRADIENTE */}
+      {/* FUNDO — GRADIENTE QUE COBRE TODO O ESPAÇO (INCLUSIVE ABAIXO DA CURVA) */}
       <div
         className={`
           absolute inset-0
-          bg-gradient-to-b from-[#0a0e3f] via-[#0d1350] to-[#1a1a6e]
+          bg-gradient-to-b from-[#0a0e3f] via-[#0d1350] to-[#0a0e3f]
           transition-transform duration-1000 ease-out
           ${menuVisible ? 'translate-y-16' : 'translate-y-0'}
         `}
@@ -158,7 +158,7 @@ export default function Home() {
             "
           >
             <Image
-              src="/images/logo_sem_slogan.png"
+              src="/images/Logo_sg.png"
               alt="Logotipo RiseON"
               fill
               priority
@@ -174,13 +174,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* SLOGAN */}
-        <p className="-mt-14 sm:-mt-20 md:-mt-28 lg:-mt-32 xl:-mt-36 text-white text-sm sm:text-base md:text-lg tracking-wide">
-          Ligar o{' '}
-          <span className="text-[#6EC8F0] font-semibold">Talento</span>
-          , Impulsionar o{' '}
-          <span className="text-[#6EC8F0] font-semibold">Crescimento</span>
-        </p>
+  
 
         {/* SWIPE */}
         <button
@@ -289,15 +283,15 @@ export default function Home() {
         </nav>
       </div>
 
-      {/* CURVA DE BAIXO — MAIS BAIXA E ESTENDIDA */}
+      {/* CURVA DE BAIXO — LEVANTADA PARA LIBERTAR ESPAÇO EM BAIXO */}
       <svg
-        className="absolute -bottom-3 left-0 w-full h-[140px] sm:h-[170px] md:h-[200px] pointer-events-none z-[5]"
+        className="absolute bottom-12 sm:bottom-14 md:bottom-16 left-0 w-full h-[140px] sm:h-[170px] md:h-[200px] pointer-events-none z-[5]"
         viewBox="0 0 1440 160"
         preserveAspectRatio="none"
       >
         <defs>
           <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1a1a6e" stopOpacity="0.6" />
+            <stop offset="0%" stopColor="#0d1350" stopOpacity="0.6" />
             <stop offset="100%" stopColor="#0a0e3f" stopOpacity="0.95" />
           </linearGradient>
         </defs>
@@ -314,10 +308,10 @@ export default function Home() {
         />
       </svg>
 
-      {/* REDES SOCIAIS — MAIS PARA BAIXO */}
-      <div className="absolute bottom-0 sm:bottom-1 right-4 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4 translate-y-4">
+      {/* REDES SOCIAIS — SUBIDAS LIGEIRAMENTE + COM MARGIN BOTTOM REAL */}
+      <div className="absolute bottom-0 sm:bottom-1 right-4 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4 translate-y-0 mb-6 sm:mb-8">
         <a
-          href="https://instagram.com/riseon.pt"
+          href="https://www.instagram.com/estagion_pt/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"
@@ -332,7 +326,7 @@ export default function Home() {
         </a>
 
         <a
-          href="https://linkedin.com/company/riseon"
+          href="https://www.linkedin.com/company/riseonlda/home/?viewAsMember=true"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
@@ -345,7 +339,7 @@ export default function Home() {
         </a>
 
         <a
-          href="https://facebook.com/riseon.pt"
+          href="https://www.facebook.com/profile.php?id=61590540806362"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Facebook"

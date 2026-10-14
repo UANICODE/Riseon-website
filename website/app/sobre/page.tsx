@@ -156,7 +156,7 @@ export default function Sobre() {
             <strong className="text-[#6EC8F0]">RiseON</strong> é uma consultora B2B vocacionada para o
             crescimento empresarial, com atuação nas áreas de{' '}
             <strong className="text-white">Recrutamento &amp; Seleção</strong>,{' '}
-            <strong className="text-white">Gestão Digital</strong> e{' '}
+            <strong className="text-white">Colocar Gestão das plataformas digitais</strong> e{' '}
             <strong className="text-white">Performance Analytics</strong>.
           </p>
         </div>
@@ -227,18 +227,50 @@ export default function Sobre() {
             </Section>
           )}
 
-          {/* PILARES */}
+          
           {(!active || active === 'pilares') && (
             <Section ref={refs.pilares} id="pilares" title="Pilares Estratégicos" delay={0.1}>
               <div className="grid sm:grid-cols-3 gap-6">
                 {[
-                  { id: 'talento', image: '/images/Talento.png', alt: 'Talent', d: 'Recrutamento & Seleção', bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20' },
-                  { id: 'impacto', image: '/images/Impacto.png', alt: 'Impact', d: 'Gestão de Plataformas Digitais', bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20' },
-                  { id: 'performance', image: '/images/Performance.png', alt: 'Performance', d: 'Performance Analytics', bg: 'bg-[#4FB0D9]/10 border border-[#4FB0D9]/20' },
+                  {
+                    id: 'talento',
+                    d: 'Recrutamento & Seleção',
+                    bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20',
+                    word: (
+                      <>
+                        Talent<span className="text-[#6EC8F0]">⏻</span>
+                      </>
+                    ),
+                  },
+                  {
+                    id: 'impacto',
+                    d: 'Gestão de Plataformas Digitais',
+                    bg: 'bg-[#6EC8F0]/10 border border-[#6EC8F0]/20',
+                    word: (
+                      <>
+                        Impact<span className="text-[#6EC8F0]">⏻</span>
+                      </>
+                    ),
+                  },
+                  {
+                    id: 'performance',
+                    d: 'Performance Analytics',
+                    bg: 'bg-[#4FB0D9]/10 border border-[#4FB0D9]/20',
+                    word: (
+                      <>
+                        Perf<span className="text-[#6EC8F0]">⏻</span>rmance
+                      </>
+                    ),
+                  },
                 ].map((p, i) => (
-                  <div key={p.id} className={`${p.bg} rounded-xl p-6 text-center animate-fade-in-up transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(79,176,217,0.2)] hover:border-[#6EC8F0]/50 flex flex-col items-center`} style={{ animationDelay: `${0.15 + i * 0.12}s` }}>
-                    <div className="relative w-full h-24 sm:h-28 mb-4 transition-transform duration-500 hover:scale-110">
-                      <Image src={p.image} alt={p.alt} fill className="object-contain" sizes="(max-width: 640px) 200px, 280px" />
+                  <div
+                    key={p.id}
+                    className={`${p.bg} rounded-xl p-6 text-center animate-fade-in-up transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(79,176,217,0.2)] hover:border-[#6EC8F0]/50 flex flex-col items-center justify-center min-h-[220px]`}
+                    style={{ animationDelay: `${0.15 + i * 0.12}s` }}
+                  >
+                    {/* PALAVRA GRANDE COM O SUBSTITUÍDO */}
+                    <div className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-wide mb-4 transition-transform duration-500 hover:scale-105">
+                      {p.word}
                     </div>
                     <p className="text-sm text-white/60 mt-1">{p.d}</p>
                   </div>
@@ -252,8 +284,8 @@ export default function Sobre() {
             <Section ref={refs.equipa} id="equipa" title="Equipa" delay={0.1}>
               <div className="grid md:grid-cols-2 gap-6">
                 {[
-                  { name: 'Beatriz Ferreira', role: 'Gerente', area: 'Recrutamento & Gestão', photo: '/images/beatriz.png', color: 'border-white/15' },
-                  { name: 'Tomás Ferreira', role: 'Gerente', area: 'Estratégia & Performance', photo: '/images/tomas.png', color: 'border-[#6EC8F0]/25' },
+                  { name: 'Beatriz Ferreira', role: 'Gerente', area: 'Estratégia & Performance', photo: '/images/beatriz.png', color: 'border-white/15' },
+                  { name: 'Tomás Ferreira', role: 'Gerente', area: 'Recrutamento & Gestão', photo: '/images/tomas.png', color: 'border-[#6EC8F0]/25' },
                 ].map((m, i) => (
                   <div key={m.name} className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-[#4FB0D9]/20 flex items-center gap-6 transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(79,176,217,0.15)] group animate-fade-in-up" style={{ animationDelay: `${0.15 + i * 0.15}s` }}>
                     <div className={`relative w-24 h-24 rounded-full overflow-hidden flex-shrink-0 border-2 ${m.color} transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-[0_0_25px_rgba(79,176,217,0.2)]`}>
@@ -276,15 +308,15 @@ export default function Sobre() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                   { name: 'MyMoment', logo: '/images/mymoment.png', website: 'https://mymoment.pt/', scale: 1.5 },
-                  { name: 'Coolivin', logo: '/images/coolivin.png', website: 'https://coolivin.com/pt', scale: 0.85, offsetY: '20%' },
+                  { name: 'Coolivin', logo: '/images/coolivin.png', website: 'https://coolivin.com/pt', scale: 0.85 },
                   { name: 'Centro Juvenil', logo: '/images/centro-juvenil.png', website: 'https://cjsj.pt/' },
                   { name: 'MadreMedia', logo: '/images/madre.png', website: 'https://madremedia.pt/' },
-                  { name: 'CD Cova Piedade', logo: '/images/clube.png', website: 'https://www.cdcovapiedade.pt/' },
+                  { name: 'Mário Ferreira Advogados', logo: '/images/mfadvogados.png', website: 'https://mfadvogados.online/pt' },
                   { name: 'Mundial Exemplar', logo: '/images/mundo_exemplar.png', website: 'https://mundialexemplarcuidadosnolar.pt/' },
                 ].map((c, i) => (
                   <a key={c.name} href={c.website} target="_blank" rel="noopener noreferrer" className="bg-white/5 backdrop-blur-md rounded-xl p-5 border border-[#4FB0D9]/20 flex items-center justify-center min-h-[110px] overflow-hidden transition-all duration-500 hover:border-[#6EC8F0]/50 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_15px_40px_rgba(79,176,217,0.15)] animate-fade-in-up group cursor-pointer" style={{ animationDelay: `${0.15 + i * 0.05}s` }}>
                     <div className="relative w-32 h-16 transition-all duration-500 group-hover:scale-110">
-                      <Image src={c.logo} alt={`Logo ${c.name}`} fill className="object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-500" style={{ transform: `scale(${c.scale ?? 1})`, objectPosition: `center ${c.offsetY ?? 'center'}` }} sizes="(max-width: 768px) 128px, 128px" />
+                      <Image src={c.logo} alt={`Logo ${c.name}`} fill className="object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-500" style={{ transform: `scale(${c.scale ?? 1})` }} sizes="(max-width: 768px) 128px, 128px" />
                     </div>
                   </a>
                 ))}
