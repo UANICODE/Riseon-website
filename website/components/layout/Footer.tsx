@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Phone, Mail, Globe, ArrowUpRight } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, ArrowUpRight, Sparkles } from 'lucide-react';
 
 // ============================================================
 // FOOTER
@@ -66,9 +66,10 @@ export function Footer() {
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#2A7FAA]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-36 md:pt-40">
-        <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* GRID — 5 colunas em lg */}
+        <div className="py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* LOGO + DESCRIÇÃO */}
-          <div>
+          <div className="lg:col-span-1">
             <Link href="/" className="relative inline-block w-40 h-12">
               <Image
                 src="/images/logo_sem_slogan.png"
@@ -138,6 +139,27 @@ export function Footer() {
                   Performance
                   <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition" />
                 </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-heading text-lg font-semibold text-white mb-5 relative inline-block">
+              Links Úteis
+              <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-[#4FB0D9] rounded"></span>
+            </h4>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <a
+                  href="https://riseonhub.riseon.pt"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/60 hover:text-[#4FB0D9] transition flex items-center gap-1 group"
+                >
+                 
+                  RiseON Hub
+                  <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition" />
+                </a>
               </li>
             </ul>
           </div>
