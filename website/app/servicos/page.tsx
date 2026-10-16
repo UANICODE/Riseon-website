@@ -49,7 +49,7 @@ export default function Servicos() {
     {
       id: 'talento',
       label: 'Talento',
-      textOffset: 'translate-x-6 translate-y-0',
+      textOffset: 'translate-x-4 translate-y-0',
       word: (
         <>
           Talent<span className="text-[#6EC8F0]">⏻</span>
@@ -59,7 +59,7 @@ export default function Servicos() {
     {
       id: 'impacto',
       label: 'Impacto',
-      textOffset: 'translate-x-6 translate-y-0',
+      textOffset: 'translate-x-4 translate-y-0',
       word: (
         <>
           Impact<span className="text-[#6EC8F0]">⏻</span>
@@ -69,7 +69,7 @@ export default function Servicos() {
     {
       id: 'performance',
       label: 'Performance',
-      textOffset: 'translate-x-6 translate-y-0',
+      textOffset: 'translate-x-4 translate-y-0',
       word: (
         <>
           Perf<span className="text-[#6EC8F0]">⏻</span>rmance
@@ -210,11 +210,11 @@ export default function Servicos() {
 
         <div className="mt-8 max-w-3xl mx-auto text-center animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
           <p className="text-white/75 leading-relaxed text-base md:text-lg">
-            A RiseON integratrês pilares estratégicos que, em
+            A RiseON integra <strong className="text-[#6EC8F0] font-semibold">três pilares estratégicos</strong> que, em
             conjunto, impulsionam o crescimento sustentado da sua empresa: recrutamos o{' '}
-           talento certo, fortalecemos a sua{' '}
-          presença digital e transformamos{' '}
-           dados em decisões. Uma abordagem consultiva, rigorosa
+            <strong className="text-white font-semibold">talento certo</strong>, fortalecemos a sua{' '}
+            <strong className="text-white font-semibold">presença digital</strong> e transformamos{' '}
+            <strong className="text-white font-semibold">dados em decisões</strong>. Uma abordagem consultiva, rigorosa
             e orientada a resultados.
           </p>
         </div>

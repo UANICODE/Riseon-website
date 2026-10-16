@@ -156,7 +156,7 @@ export default function Sobre() {
             <strong className="text-[#6EC8F0]">RiseON</strong> é uma consultora B2B vocacionada para o
             crescimento empresarial, com atuação nas áreas de{' '}
             <strong className="text-white">Recrutamento &amp; Seleção</strong>,{' '}
-            <strong className="text-white">Colocar Gestão das plataformas digitais</strong> e{' '}
+            <strong className="text-white">Gestão das plataformas digitais</strong> e{' '}
             <strong className="text-white">Performance Analytics</strong>.
           </p>
         </div>

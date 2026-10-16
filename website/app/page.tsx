@@ -125,7 +125,7 @@ export default function Home() {
           w-full max-w-[1400px] mx-auto px-5 sm:px-8
           flex flex-col items-center justify-center text-center
           transition-transform duration-1000 ease-out
-          ${menuVisible ? '-translate-y-6' : 'translate-y-0'}
+          ${menuVisible ? '-translate-y-6' : 'translate-y-8'}
         `}
       >
         {/* LOGO — MÁXIMA QUALIDADE + CONTRASTE */}
@@ -174,8 +174,6 @@ export default function Home() {
           </div>
         </div>
 
-  
-
         {/* SWIPE */}
         <button
           onClick={handleSwipe}
@@ -210,7 +208,7 @@ export default function Home() {
           </div>
         </button>
 
-        {/* 3 BOTÕES */}
+        {/* 3 BOTÕES — só aparecem depois do scroll/swipe */}
         <nav
           className={`
             mt-8 sm:mt-10
@@ -308,8 +306,16 @@ export default function Home() {
         />
       </svg>
 
-      {/* REDES SOCIAIS — SUBIDAS LIGEIRAMENTE + COM MARGIN BOTTOM REAL */}
-      <div className="absolute bottom-0 sm:bottom-1 right-4 sm:right-8 z-[6] flex flex-row items-center gap-3 sm:gap-4 translate-y-0 mb-6 sm:mb-8">
+      {/* REDES SOCIAIS — só aparecem depois do scroll/swipe */}
+      <div
+        className={`
+          absolute bottom-0 sm:bottom-1 right-4 sm:right-8 z-[6]
+          flex flex-row items-center gap-3 sm:gap-4
+          translate-y-0 mb-6 sm:mb-8
+          transition-all duration-700 ease-out
+          ${menuVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none'}
+        `}
+      >
         <a
           href="https://www.instagram.com/estagion_pt/"
           target="_blank"
